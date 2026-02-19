@@ -1,4 +1,6 @@
 import Layout from "@/components/Layout";
+import PageHero from "@/components/PageHero";
+import heroImg from "@/assets/page-hero-properties.jpg";
 import { MapPin, Building2, Search } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
@@ -23,10 +25,7 @@ const Properties = () => {
 
   return (
     <Layout>
-      <section className="page-hero">
-        <h1 className="font-heading text-4xl md:text-5xl font-bold mb-4">Properties</h1>
-        <p className="opacity-90">Browse our available properties across Malawi.</p>
-      </section>
+      <PageHero title="Properties" subtitle="Browse our available properties across Malawi." bgImage={heroImg} />
 
       <section className="py-10">
         <div className="container">

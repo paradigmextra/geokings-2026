@@ -1,4 +1,6 @@
 import Layout from "@/components/Layout";
+import PageHero from "@/components/PageHero";
+import heroImg from "@/assets/page-hero-portfolio.jpg";
 import { Map, Building2, PenTool, Compass } from "lucide-react";
 
 const projects = [
@@ -20,10 +22,7 @@ const Portfolio = () => {
 
   return (
     <Layout>
-      <section className="page-hero">
-        <h1 className="font-heading text-4xl md:text-5xl font-bold mb-4">Portfolio</h1>
-        <p className="opacity-90">Explore our completed projects across Malawi.</p>
-      </section>
+      <PageHero title="Portfolio" subtitle="Explore our completed projects across Malawi." bgImage={heroImg} />
 
       <section className="py-20">
         <div className="container">

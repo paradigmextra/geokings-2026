@@ -1,4 +1,6 @@
 import Layout from "@/components/Layout";
+import PageHero from "@/components/PageHero";
+import heroImg from "@/assets/page-hero-contact.jpg";
 import { MapPin, Phone, Mail, Clock, MessageSquare } from "lucide-react";
 import { useState } from "react";
 
@@ -13,10 +15,7 @@ const Contact = () => {
 
   return (
     <Layout>
-      <section className="page-hero">
-        <h1 className="font-heading text-4xl md:text-5xl font-bold mb-4">Contact Us</h1>
-        <p className="opacity-90 max-w-2xl mx-auto">Get in touch with our team. We're here to help with all your GIS and property needs.</p>
-      </section>
+      <PageHero title="Contact Us" subtitle="Get in touch with our team. We're here to help with all your GIS and property needs." bgImage={heroImg} />
 
       <section className="py-20">
         <div className="container">

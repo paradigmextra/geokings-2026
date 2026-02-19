@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import Layout from "@/components/Layout";
+import PageHero from "@/components/PageHero";
+import heroImg from "@/assets/page-hero-services.jpg";
 import {
   Building2, FileCheck, Compass, PenTool, Calculator, Map,
   BookOpen, FileText, GraduationCap, ArrowRight
@@ -22,10 +24,7 @@ import { MapPin } from "lucide-react";
 
 const Services = () => (
   <Layout>
-    <section className="page-hero">
-      <h1 className="font-heading text-4xl md:text-5xl font-bold mb-4">Our Services</h1>
-      <p className="opacity-90 max-w-2xl mx-auto">End-to-end geospatial and property solutions tailored for Malawi.</p>
-    </section>
+    <PageHero title="Our Services" subtitle="End-to-end geospatial and property solutions tailored for Malawi." bgImage={heroImg} />
 
     <section className="py-20">
       <div className="container">
