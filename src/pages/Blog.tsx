@@ -1,4 +1,6 @@
 import Layout from "@/components/Layout";
+import PageHero from "@/components/PageHero";
+import heroImg from "@/assets/page-hero-blog.jpg";
 import { Link } from "react-router-dom";
 import { ArrowRight, Clock, User } from "lucide-react";
 
@@ -11,10 +13,7 @@ const posts = [
 
 const Blog = () => (
   <Layout>
-    <section className="page-hero">
-      <h1 className="font-heading text-4xl md:text-5xl font-bold mb-4">Blog & Insights</h1>
-      <p className="opacity-90">Articles on land, property, GIS technology, and more.</p>
-    </section>
+    <PageHero title="Blog & Insights" subtitle="Articles on land, property, GIS technology, and more." bgImage={heroImg} />
 
     <section className="py-20">
       <div className="container">

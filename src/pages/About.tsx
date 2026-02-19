@@ -1,4 +1,6 @@
 import Layout from "@/components/Layout";
+import PageHero from "@/components/PageHero";
+import heroImg from "@/assets/page-hero-about.jpg";
 import { Eye, Target, Shield, Lightbulb, CheckCircle, Award } from "lucide-react";
 
 const values = [
@@ -11,10 +13,7 @@ const values = [
 
 const About = () => (
   <Layout>
-    <section className="page-hero">
-      <h1 className="font-heading text-4xl md:text-5xl font-bold mb-4">About Us</h1>
-      <p className="opacity-90 max-w-2xl mx-auto">Learn about Malawi's leading GIS and property consultancy firm.</p>
-    </section>
+    <PageHero title="About Us" subtitle="Learn about Malawi's leading GIS and property consultancy firm." bgImage={heroImg} />
 
     <section className="py-20">
       <div className="container max-w-4xl">
