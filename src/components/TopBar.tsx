@@ -5,8 +5,8 @@ const TopBar = () => (
   <div className="hero-gradient text-primary-foreground text-sm py-2">
     <div className="container flex justify-between items-center">
       <div className="flex items-center gap-6">
-        <span className="flex items-center gap-1"><Phone className="w-3 h-3" /> +265 999 123 456</span>
-        <span className="flex items-center gap-1"><Mail className="w-3 h-3" /> info@geokings.mw</span>
+        <span className="flex items-center gap-1"><Phone className="w-3 h-3" /> +265 983 333 061</span>
+        <span className="flex items-center gap-1"><Mail className="w-3 h-3" /> Info@geoking.org</span>
         <span className="hidden md:flex items-center gap-1"><MapPin className="w-3 h-3" /> Lilongwe, Malawi</span>
       </div>
       <div className="flex items-center gap-4">

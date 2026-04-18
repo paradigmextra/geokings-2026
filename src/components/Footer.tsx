@@ -20,8 +20,13 @@ const Footer = () => (
           </div>
           <p className="text-sm opacity-80 mb-4">Malawi's premier geospatial consultancy providing comprehensive land, property, and GIS solutions since May 2022.</p>
           <div className="flex gap-3">
-            {[Facebook, Twitter, Linkedin, Instagram].map((Icon, i) => (
-              <a key={i} href="#" className="w-9 h-9 rounded-full border border-secondary-foreground/30 flex items-center justify-center hover:bg-accent hover:border-accent transition-colors">
+            {[
+              { Icon: Facebook, href: "https://web.facebook.com/geokingconsultancy/", label: "Facebook" },
+              { Icon: Twitter, href: "#", label: "Twitter" },
+              { Icon: Linkedin, href: "#", label: "LinkedIn" },
+              { Icon: Instagram, href: "#", label: "Instagram" },
+            ].map(({ Icon, href, label }) => (
+              <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label} className="w-9 h-9 rounded-full border border-secondary-foreground/30 flex items-center justify-center hover:bg-accent hover:border-accent transition-colors">
                 <Icon className="w-4 h-4" />
               </a>
             ))}
@@ -61,8 +66,8 @@ const Footer = () => (
           <h4 className="font-heading font-semibold text-lg mb-4">Contact Us</h4>
           <ul className="space-y-3 text-sm opacity-80">
             <li className="flex gap-2"><MapPin className="w-4 h-4 text-accent shrink-0 mt-0.5" /><span>Area 3, Off Paul Kagame Road<br />Lilongwe, Malawi</span></li>
-            <li className="flex gap-2"><Phone className="w-4 h-4 text-accent shrink-0" /><span>+265 999 123 456<br />+265 888 234 567</span></li>
-            <li className="flex gap-2"><Mail className="w-4 h-4 text-accent shrink-0" /><span>info@geokings.mw</span></li>
+            <li className="flex gap-2"><Phone className="w-4 h-4 text-accent shrink-0" /><span>+265 983 333 061<br />+265 881 313 475</span></li>
+            <li className="flex gap-2"><Mail className="w-4 h-4 text-accent shrink-0" /><span>Info@geoking.org</span></li>
             <li className="flex gap-2"><Clock className="w-4 h-4 text-accent shrink-0" /><span>Mon - Fri: 8:00 AM - 5:00 PM<br />Sat: 8:00 AM - 12:00 PM</span></li>
           </ul>
         </div>
