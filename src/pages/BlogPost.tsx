@@ -22,7 +22,7 @@ const BlogPost = () => {
           </div>
           <div className="prose prose-lg max-w-none text-muted-foreground">
             <p>This is a placeholder blog post for "{slug}". Content will be added as the blog grows with articles on land laws, GIS technology, property trends in Malawi, surveying techniques, and urban planning insights.</p>
-            <p>Geoking GIS Consultancy is committed to sharing knowledge and insights that help property owners, surveyors, and development professionals stay informed about the latest trends and regulations in Malawi's land and property sector.</p>
+            <p>Geoking Consultancy is committed to sharing knowledge and insights that help property owners, surveyors, and development professionals stay informed about the latest trends and regulations in Malawi's land and property sector.</p>
           </div>
         </div>
       </section>

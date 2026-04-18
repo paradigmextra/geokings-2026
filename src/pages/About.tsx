@@ -18,7 +18,7 @@ const About = () => (
     <section className="py-20">
       <div className="container max-w-4xl">
         <h2 className="font-heading text-3xl font-bold text-foreground mb-6">Company Overview</h2>
-        <p className="text-muted-foreground mb-4">Geoking GIS Consultancy was founded on 12 May 2022 in Malawi with a vision to transform the land and property management landscape through innovative geospatial solutions.</p>
+        <p className="text-muted-foreground mb-4">Geoking Consultancy was founded on 12 May 2022 in Malawi with a vision to transform the land and property management landscape through innovative geospatial solutions.</p>
         <p className="text-muted-foreground mb-4">Led by a Malawian business magnate with vast technical and academic experience, the firm has rapidly grown to become a trusted partner for individuals, organizations, and government agencies seeking professional GIS, surveying, property valuation, and real estate services.</p>
       </div>
     </section>

@@ -8,15 +8,17 @@ const Footer = () => (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
         {/* Brand */}
         <div>
-          <div className="flex items-center gap-2 mb-4">
-            <img src={logo} alt="Geokings" className="h-10 w-10 object-contain" />
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-12 h-12 rounded-full bg-background shadow-md flex items-center justify-center ring-2 ring-accent/30">
+              <img src={logo} alt="Geoking" className="h-9 w-9 object-contain" />
+            </div>
             <div>
-              <span className="font-heading font-bold text-secondary-foreground">GEO</span>
-              <span className="font-heading font-bold text-accent">KINGS</span>
-              <p className="text-[10px] tracking-widest uppercase opacity-70">GIS Consultancy</p>
+              <span className="font-heading font-bold text-secondary-foreground text-lg">GEO</span>
+              <span className="font-heading font-bold text-accent text-lg">KING</span>
+              <p className="text-[10px] tracking-widest uppercase opacity-70">Consultancy</p>
             </div>
           </div>
-          <p className="text-sm opacity-80 mb-4">Malawi's premier GIS consultancy providing comprehensive land, property, and geospatial solutions since May 2022.</p>
+          <p className="text-sm opacity-80 mb-4">Malawi's premier geospatial consultancy providing comprehensive land, property, and GIS solutions since May 2022.</p>
           <div className="flex gap-3">
             {[Facebook, Twitter, Linkedin, Instagram].map((Icon, i) => (
               <a key={i} href="#" className="w-9 h-9 rounded-full border border-secondary-foreground/30 flex items-center justify-center hover:bg-accent hover:border-accent transition-colors">
@@ -69,7 +71,7 @@ const Footer = () => (
 
     <div className="border-t border-secondary-foreground/10">
       <div className="container py-4 flex flex-col md:flex-row justify-between items-center text-xs opacity-60">
-        <p>© 2026 Geokings GIS Consultancy. All rights reserved.</p>
+        <p>© 2026 Geoking Consultancy. All rights reserved.</p>
         <div className="flex gap-4 mt-2 md:mt-0">
           <a href="#" className="hover:text-accent">Privacy Policy</a>
           <a href="#" className="hover:text-accent">Terms of Service</a>

@@ -34,7 +34,7 @@ const services = [
 ];
 
 const testimonials = [
-  { name: "James Phiri", role: "Property Developer, Lilongwe", text: "Geoking GIS transformed how we approach land surveying. Their accuracy and professionalism are unmatched in Malawi.", rating: 5 },
+  { name: "James Phiri", role: "Property Developer, Lilongwe", text: "Geoking transformed how we approach land surveying. Their accuracy and professionalism are unmatched in Malawi.", rating: 5 },
   { name: "Grace Banda", role: "Agricultural Officer, Salima", text: "The GIS mapping services helped us optimize crop distribution across 200+ hectares. Truly remarkable work.", rating: 5 },
   { name: "Peter Mwale", role: "Real Estate Investor", text: "Their property valuation was thorough and transparent. I now use Geoking for all my real estate transactions.", rating: 5 },
   { name: "Chisomo Nkhoma", role: "Urban Planner, Mzuzu", text: "Professional, timely, and incredibly knowledgeable. Geoking is leading the GIS revolution in Malawi.", rating: 5 },
@@ -68,7 +68,7 @@ const Index = () => (
               className="inline-flex items-center gap-2 bg-primary-foreground/10 backdrop-blur px-4 py-1.5 rounded-full text-sm mb-6"
             >
               <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
-              Malawi's Premier GIS Consultancy
+              Malawi's Premier Geospatial Consultancy
             </motion.span>
             <motion.h1
               initial={{ opacity: 0, y: 30 }}
@@ -110,7 +110,7 @@ const Index = () => (
           >
             <div className="relative">
               <div className="w-80 h-80 rounded-full bg-white shadow-2xl flex items-center justify-center">
-                <img src={logo} alt="Geokings" className="w-52 h-52 object-contain" />
+                <img src={logo} alt="Geoking Consultancy" className="w-52 h-52 object-contain" />
               </div>
               <div className="absolute -top-2 -right-2 bg-primary-foreground/10 backdrop-blur border border-primary-foreground/20 text-primary-foreground px-4 py-1 rounded-full text-sm font-semibold">
                 Est. 2022
@@ -158,8 +158,8 @@ const Index = () => (
             transition={{ duration: 0.6 }}
           >
             <span className="section-label flex items-center gap-2 mb-2"><CheckCircle className="w-4 h-4" /> Who We Are</span>
-            <h2 className="font-heading text-3xl md:text-4xl font-bold text-foreground mb-4">Malawi's Leading GIS & Property Consultancy</h2>
-            <p className="text-muted-foreground mb-4">Founded on 12 May 2022, Geoking GIS Consultancy has rapidly established itself as Malawi's premier geospatial and property solutions firm. Led by a visionary founder with vast technical and academic expertise, we deliver innovation across land management, surveying, and real estate.</p>
+            <h2 className="font-heading text-3xl md:text-4xl font-bold text-foreground mb-4">Malawi's Leading Geospatial & Property Consultancy</h2>
+            <p className="text-muted-foreground mb-4">Founded on 12 May 2022, Geoking Consultancy has rapidly established itself as Malawi's premier geospatial and property solutions firm. Led by a visionary founder with vast technical and academic expertise, we deliver innovation across land management, surveying, and real estate.</p>
             <p className="text-muted-foreground mb-6">Our team combines cutting-edge technology with deep local knowledge to serve individuals, organizations, and government agencies across the nation.</p>
             <Link to="/about" className="inline-flex items-center gap-2 text-accent font-semibold hover:gap-3 transition-all">
               Learn More About Us <ArrowRight className="w-4 h-4" />
