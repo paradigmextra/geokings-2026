@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SplashScreen from "./components/SplashScreen";
 import ScrollToTop from "./components/ScrollToTop";
+import PageLoader from "./components/PageLoader";
 import Index from "./pages/Index";
 import About from "./pages/About";
 import Services from "./pages/Services";
@@ -27,6 +28,7 @@ const App = () => (
       <SplashScreen />
       <BrowserRouter>
         <ScrollToTop />
+        <PageLoader />
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/about" element={<About />} />

@@ -2,14 +2,11 @@ import { Link } from "react-router-dom";
 import Layout from "@/components/Layout";
 import logo from "@/assets/logo.png";
 import heroBg from "@/assets/hero-bg.jpg";
-import propertyHouse from "@/assets/property-house.jpg";
-import propertyCommercial from "@/assets/property-commercial.jpg";
-import propertyLand from "@/assets/property-land.jpg";
 import { motion } from "framer-motion";
 import {
   Building2, FileCheck, Compass, PenTool, Calculator, Map,
   BookOpen, FileText, GraduationCap, MapPin, Users, CheckCircle,
-  ArrowRight, Play, Target, Eye, Star, Quote
+  ArrowRight, Play, Target, Eye, Star, Quote, Home as HomeIcon
 } from "lucide-react";
 
 const fadeUp = {
@@ -41,9 +38,9 @@ const testimonials = [
 ];
 
 const featuredProperties = [
-  { title: "3 Bedroom House in Area 47", price: "MWK 85,000,000", location: "Area 47, Lilongwe", image: propertyHouse },
-  { title: "Commercial Plot in City Centre", price: "MWK 120,000,000", location: "City Centre, Lilongwe", image: propertyCommercial },
-  { title: "Residential Land in Area 25", price: "MWK 15,000,000", location: "Area 25, Lilongwe", image: propertyLand },
+  { title: "3 Bedroom House in Area 47", price: "MWK 85,000,000", location: "Area 47, Lilongwe", type: "House", desc: "Modern 3-bedroom house with spacious living areas." },
+  { title: "Commercial Plot in City Centre", price: "MWK 120,000,000", location: "City Centre, Lilongwe", type: "Commercial", desc: "Prime commercial plot in central business district." },
+  { title: "Residential Land in Area 25", price: "MWK 15,000,000", location: "Area 25, Lilongwe", type: "Land", desc: "Ready for development residential land." },
 ];
 
 const Index = () => (
@@ -290,13 +287,15 @@ const Index = () => (
               variants={fadeUp}
               className="bg-card rounded-xl overflow-hidden border border-border hover:shadow-lg transition-shadow group"
             >
-              <div className="h-48 overflow-hidden">
-                <img src={p.image} alt={p.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              <div className="h-48 hero-gradient flex items-center justify-center relative">
+                <Building2 className="w-16 h-16 text-primary-foreground/30 group-hover:scale-110 transition-transform duration-500" />
               </div>
               <div className="p-5">
                 <h3 className="font-heading font-semibold text-foreground mb-1">{p.title}</h3>
                 <p className="text-accent font-bold text-lg mb-1">{p.price}</p>
-                <p className="text-sm text-muted-foreground flex items-center gap-1"><MapPin className="w-3 h-3" /> {p.location}</p>
+                <p className="text-sm text-muted-foreground flex items-center gap-1 mb-2"><MapPin className="w-3 h-3" /> {p.location}</p>
+                <p className="text-sm text-muted-foreground mb-3">{p.desc}</p>
+                <span className="bg-muted text-muted-foreground text-xs px-2 py-1 rounded-full">{p.type}</span>
               </div>
             </motion.div>
           ))}
