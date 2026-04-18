@@ -78,9 +78,9 @@ const Footer = () => (
       <div className="container py-4 flex flex-col md:flex-row justify-between items-center text-xs opacity-60">
         <p>© 2026 Geoking Consultancy. All rights reserved.</p>
         <div className="flex gap-4 mt-2 md:mt-0">
-          <a href="#" className="hover:text-accent">Privacy Policy</a>
-          <a href="#" className="hover:text-accent">Terms of Service</a>
-          <a href="#" className="hover:text-accent">Cookie Policy</a>
+          <Link to="/privacy-policy" className="hover:text-accent">Privacy Policy</Link>
+          <Link to="/terms-of-service" className="hover:text-accent">Terms of Service</Link>
+          <Link to="/cookie-policy" className="hover:text-accent">Cookie Policy</Link>
         </div>
       </div>
     </div>

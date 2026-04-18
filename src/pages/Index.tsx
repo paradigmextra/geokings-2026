@@ -38,9 +38,9 @@ const testimonials = [
 ];
 
 const featuredProperties = [
-  { title: "3 Bedroom House in Area 47", price: "MWK 85,000,000", location: "Area 47, Lilongwe", type: "House", desc: "Modern 3-bedroom house with spacious living areas." },
-  { title: "Commercial Plot in City Centre", price: "MWK 120,000,000", location: "City Centre, Lilongwe", type: "Commercial", desc: "Prime commercial plot in central business district." },
-  { title: "Residential Land in Area 25", price: "MWK 15,000,000", location: "Area 25, Lilongwe", type: "Land", desc: "Ready for development residential land." },
+  { title: "House for Sale", price: "Coming Soon", location: "Area 47, Lilongwe", type: "House", desc: "Modern 3-bedroom house with spacious living areas." },
+  { title: "House for Sale", price: "Coming Soon", location: "City Centre, Lilongwe", type: "Commercial", desc: "Prime commercial plot in central business district." },
+  { title: "House for Sale", price: "Coming Soon", location: "Area 25, Lilongwe", type: "Land", desc: "Ready for development residential land." },
 ];
 
 const Index = () => (
