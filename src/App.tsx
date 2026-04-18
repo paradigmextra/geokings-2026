@@ -16,6 +16,10 @@ import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
 import Contact from "./pages/Contact";
 import AgentPortal from "./pages/AgentPortal";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService";
+import CookiePolicy from "./pages/CookiePolicy";
+import CookieBanner from "./components/CookieBanner";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
