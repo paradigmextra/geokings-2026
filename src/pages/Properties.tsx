@@ -6,12 +6,12 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const properties = [
-  { id: 1, title: "3 Bedroom House in Area 47", price: "MWK 85,000,000", location: "Area 47, Lilongwe", type: "House", status: "Available", desc: "Modern 3-bedroom house with spacious living areas." },
-  { id: 2, title: "Commercial Plot in City Centre", price: "MWK 120,000,000", location: "City Centre, Lilongwe", type: "Commercial", status: "Available", desc: "Prime commercial plot in central business district." },
-  { id: 3, title: "Residential Land in Area 25", price: "MWK 15,000,000", location: "Area 25, Lilongwe", type: "Land", status: "Available", desc: "Ready for development residential land." },
-  { id: 4, title: "4 Bedroom House in Area 43", price: "MWK 110,000,000", location: "Area 43, Lilongwe", type: "House", status: "Available", desc: "Luxury 4-bedroom home with garden." },
-  { id: 5, title: "Warehouse in Kanengo", price: "MWK 200,000,000", location: "Kanengo, Lilongwe", type: "Commercial", status: "Sold", desc: "Large warehouse space in industrial area." },
-  { id: 6, title: "Land in Mangochi", price: "MWK 8,000,000", location: "Mangochi", type: "Land", status: "Available", desc: "Lake-view land parcel." },
+  { id: 1, title: "House for Sale", price: "Coming Soon", location: "Area 47, Lilongwe", type: "House", status: "Available", desc: "Modern 3-bedroom house with spacious living areas." },
+  { id: 2, title: "House for Sale", price: "Coming Soon", location: "City Centre, Lilongwe", type: "Commercial", status: "Available", desc: "Prime commercial plot in central business district." },
+  { id: 3, title: "House for Sale", price: "Coming Soon", location: "Area 25, Lilongwe", type: "Land", status: "Available", desc: "Ready for development residential land." },
+  { id: 4, title: "House for Sale", price: "Coming Soon", location: "Area 43, Lilongwe", type: "House", status: "Available", desc: "Luxury 4-bedroom home with garden." },
+  { id: 5, title: "House for Sale", price: "Coming Soon", location: "Kanengo, Lilongwe", type: "Commercial", status: "Sold", desc: "Large warehouse space in industrial area." },
+  { id: 6, title: "House for Sale", price: "Coming Soon", location: "Mangochi", type: "Land", status: "Available", desc: "Lake-view land parcel." },
 ];
 
 const Properties = () => {
