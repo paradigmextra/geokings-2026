@@ -32,12 +32,14 @@ const Navbar = () => {
   return (
     <nav className="bg-background border-b border-border sticky top-0 z-50">
       <div className="container flex items-center justify-between h-16">
-        <Link to="/" className="flex items-center gap-2">
-          <img src={logo} alt="Geokings Logo" className="h-10 w-10 object-contain" />
+        <Link to="/" className="flex items-center gap-3">
+          <div className="w-12 h-12 rounded-full bg-background shadow-md flex items-center justify-center ring-2 ring-accent/30">
+            <img src={logo} alt="Geoking Consultancy Logo" className="h-9 w-9 object-contain" />
+          </div>
           <div className="leading-tight">
-            <span className="font-heading font-bold text-secondary">GEO</span>
-            <span className="font-heading font-bold text-accent">KINGS</span>
-            <p className="text-[10px] font-semibold tracking-widest text-muted-foreground uppercase">GIS Consultancy</p>
+            <span className="font-heading font-bold text-secondary text-lg">GEO</span>
+            <span className="font-heading font-bold text-accent text-lg">KING</span>
+            <p className="text-[10px] font-semibold tracking-widest text-muted-foreground uppercase">Consultancy</p>
           </div>
         </Link>
 
