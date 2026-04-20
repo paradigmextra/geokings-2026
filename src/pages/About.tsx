@@ -68,10 +68,10 @@ const About = () => (
                 <span className="text-xs font-medium px-3 py-1.5 rounded-full bg-primary/10 text-primary">Digital Innovation</span>
               </div>
               <div className="flex gap-3 mt-6">
-                <a href="#" aria-label="LinkedIn" className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:bg-primary hover:text-primary-foreground hover:border-primary transition-colors">
+                <a href="https://www.linkedin.com/in/chifundo-mbewe-631338b0?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:bg-primary hover:text-primary-foreground hover:border-primary transition-colors">
                   <Linkedin className="w-4 h-4" />
                 </a>
-                <a href="mailto:Info@geoking.org" aria-label="Email" className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:bg-accent hover:text-accent-foreground hover:border-accent transition-colors">
+                <a href="mailto:cwitness@geokings.com" aria-label="Email" className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:bg-accent hover:text-accent-foreground hover:border-accent transition-colors">
                   <Mail className="w-4 h-4" />
                 </a>
               </div>
