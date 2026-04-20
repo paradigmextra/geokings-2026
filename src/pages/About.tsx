@@ -1,7 +1,8 @@
 import Layout from "@/components/Layout";
 import PageHero from "@/components/PageHero";
 import heroImg from "@/assets/page-hero-about.jpg";
-import { Eye, Target, Shield, Lightbulb, CheckCircle, Award } from "lucide-react";
+import founderImg from "@/assets/founder-chifundo.jpg";
+import { Eye, Target, Shield, Lightbulb, CheckCircle, Award, Linkedin, Mail } from "lucide-react";
 
 const values = [
   { icon: Lightbulb, title: "Innovation", desc: "Embracing cutting-edge geospatial technology." },
@@ -20,6 +21,63 @@ const About = () => (
         <h2 className="font-heading text-3xl font-bold text-foreground mb-6">Company Overview</h2>
         <p className="text-muted-foreground mb-4">Geoking Consultancy was founded on 12 May 2022 in Malawi with a vision to transform the land and property management landscape through innovative geospatial solutions.</p>
         <p className="text-muted-foreground mb-4">Led by a Malawian business magnate with vast technical and academic experience, the firm has rapidly grown to become a trusted partner for individuals, organizations, and government agencies seeking professional GIS, surveying, property valuation, and real estate services.</p>
+      </div>
+    </section>
+
+    {/* Founder Profile */}
+    <section className="py-20 bg-muted/40">
+      <div className="container max-w-5xl">
+        <div className="text-center mb-10">
+          <span className="inline-block text-xs font-semibold tracking-widest uppercase text-accent mb-2">Leadership</span>
+          <h2 className="font-heading text-3xl md:text-4xl font-bold text-foreground">Meet Our Founder</h2>
+        </div>
+
+        <div className="relative bg-card border border-border rounded-2xl overflow-hidden shadow-xl">
+          {/* Decorative gradient stripe */}
+          <div className="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-primary via-accent to-primary" />
+
+          <div className="grid md:grid-cols-5 gap-0">
+            {/* Image */}
+            <div className="md:col-span-2 relative bg-gradient-to-br from-primary/10 to-accent/10 p-8 md:p-10 flex items-center justify-center">
+              <div className="relative">
+                <div className="absolute -inset-3 rounded-2xl bg-gradient-to-br from-accent/40 to-primary/40 blur-xl opacity-60" />
+                <div className="relative w-56 h-56 md:w-64 md:h-64 rounded-2xl overflow-hidden ring-4 ring-background shadow-2xl">
+                  <img
+                    src={founderImg}
+                    alt="Chifundo Witness, Founder of Geoking"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Content */}
+            <div className="md:col-span-3 p-8 md:p-10 flex flex-col justify-center">
+              <h3 className="font-heading text-2xl md:text-3xl font-bold text-foreground">
+                Chifundo Witness
+              </h3>
+              <p className="text-accent font-semibold mt-1 mb-5">Founder</p>
+              <p className="text-muted-foreground leading-relaxed mb-6">
+                Chifundo Witness is the founder of Geoking, with a strong focus on geospatial solutions,
+                land management, and digital innovation. He is dedicated to using technology to solve
+                real-world challenges in land systems, agriculture, and urban development in Malawi.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                <span className="text-xs font-medium px-3 py-1.5 rounded-full bg-primary/10 text-primary">Geospatial Solutions</span>
+                <span className="text-xs font-medium px-3 py-1.5 rounded-full bg-accent/10 text-accent">Land Management</span>
+                <span className="text-xs font-medium px-3 py-1.5 rounded-full bg-primary/10 text-primary">Digital Innovation</span>
+              </div>
+              <div className="flex gap-3 mt-6">
+                <a href="#" aria-label="LinkedIn" className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:bg-primary hover:text-primary-foreground hover:border-primary transition-colors">
+                  <Linkedin className="w-4 h-4" />
+                </a>
+                <a href="mailto:Info@geoking.org" aria-label="Email" className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:bg-accent hover:text-accent-foreground hover:border-accent transition-colors">
+                  <Mail className="w-4 h-4" />
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
