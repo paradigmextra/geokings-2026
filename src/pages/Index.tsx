@@ -35,9 +35,9 @@ const services = [
 ];
 
 const testimonials = [
-  { name: "Victor Mlongoti", role: "Property Developer, Lilongwe", text: "Geoking transformed how we approach land surveying. Their accuracy and professionalism are unmatched in Malawi.", rating: 5, image: testimonialVictor },
+  { name: "Victor Mlongoti", role: "Digital Strategist", text: "Geoking transformed how we approach land surveying. Their accuracy and professionalism are unmatched in Malawi.", rating: 5, image: testimonialVictor },
   { name: "Grace Banda", role: "Agricultural Officer, Salima", text: "The GIS mapping services helped us optimize crop distribution across 200+ hectares. Truly remarkable work.", rating: 4, image: testimonialGrace },
-  { name: "Peter Mwale", role: "Real Estate Investor", text: "Their property valuation was thorough and transparent. I now use Geoking for all my real estate transactions.", rating: 5, image: testimonialPeter },
+  { name: "Peter Mwale", role: "Real Estate Investor", text: "Their property valuation was thorough and transparent. I now use Geoking for all my real estate transactions.", rating: 3, image: testimonialPeter },
   { name: "Chisomo Nkhoma", role: "Urban Planner, Mzuzu", text: "Professional, timely, and incredibly knowledgeable. Geoking is leading the GIS revolution in Malawi.", rating: 4, image: testimonialChisomo },
 ];
 
