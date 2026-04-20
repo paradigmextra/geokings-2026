@@ -2,6 +2,10 @@ import { Link } from "react-router-dom";
 import Layout from "@/components/Layout";
 import logo from "@/assets/logo.png";
 import heroBg from "@/assets/hero-bg.jpg";
+import testimonialVictor from "@/assets/testimonial-victor.jpg";
+import testimonialGrace from "@/assets/testimonial-grace.jpg";
+import testimonialPeter from "@/assets/testimonial-peter.jpg";
+import testimonialChisomo from "@/assets/testimonial-chisomo.jpg";
 import { motion } from "framer-motion";
 import {
   Building2, FileCheck, Compass, PenTool, Calculator, Map,
@@ -31,10 +35,10 @@ const services = [
 ];
 
 const testimonials = [
-  { name: "James Phiri", role: "Property Developer, Lilongwe", text: "Geoking transformed how we approach land surveying. Their accuracy and professionalism are unmatched in Malawi.", rating: 5 },
-  { name: "Grace Banda", role: "Agricultural Officer, Salima", text: "The GIS mapping services helped us optimize crop distribution across 200+ hectares. Truly remarkable work.", rating: 5 },
-  { name: "Peter Mwale", role: "Real Estate Investor", text: "Their property valuation was thorough and transparent. I now use Geoking for all my real estate transactions.", rating: 5 },
-  { name: "Chisomo Nkhoma", role: "Urban Planner, Mzuzu", text: "Professional, timely, and incredibly knowledgeable. Geoking is leading the GIS revolution in Malawi.", rating: 5 },
+  { name: "Victor Mlongoti", role: "Property Developer, Lilongwe", text: "Geoking transformed how we approach land surveying. Their accuracy and professionalism are unmatched in Malawi.", rating: 5, image: testimonialVictor },
+  { name: "Grace Banda", role: "Agricultural Officer, Salima", text: "The GIS mapping services helped us optimize crop distribution across 200+ hectares. Truly remarkable work.", rating: 4, image: testimonialGrace },
+  { name: "Peter Mwale", role: "Real Estate Investor", text: "Their property valuation was thorough and transparent. I now use Geoking for all my real estate transactions.", rating: 5, image: testimonialPeter },
+  { name: "Chisomo Nkhoma", role: "Urban Planner, Mzuzu", text: "Professional, timely, and incredibly knowledgeable. Geoking is leading the GIS revolution in Malawi.", rating: 4, image: testimonialChisomo },
 ];
 
 const featuredProperties = [
@@ -341,8 +345,8 @@ const Index = () => (
               </div>
               <p className="text-sm text-muted-foreground mb-4 italic">"{t.text}"</p>
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-primary/10 text-primary font-bold flex items-center justify-center text-sm">
-                  {t.name.split(" ").map(n => n[0]).join("")}
+                <div className="w-11 h-11 rounded-full overflow-hidden ring-2 ring-accent/30 shrink-0">
+                  <img src={t.image} alt={t.name} loading="lazy" width={64} height={64} className="w-full h-full object-cover" />
                 </div>
                 <div>
                   <div className="font-semibold text-foreground text-sm">{t.name}</div>
