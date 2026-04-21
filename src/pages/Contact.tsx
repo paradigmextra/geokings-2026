@@ -27,7 +27,7 @@ const Contact = () => {
 
               <div className="space-y-6">
                 {[
-                  { icon: MapPin, title: "Our Office", lines: ["Area 3, Off Paul Kagame Road", "Lilongwe, Malawi"] },
+                  { icon: MapPin, title: "Our Office", lines: ["Area 4, Off Paul Kagame Road", "Lilongwe, Malawi"] },
                   { icon: Phone, title: "Phone Numbers", lines: ["+265 983 333 061", "+265 881 313 475"] },
                   { icon: Mail, title: "Email", lines: ["Info@geoking.org"] },
                   { icon: Clock, title: "Office Hours", lines: ["Mon - Fri: 8:00 AM - 5:00 PM", "Sat: 8:00 AM - 12:00 PM"] },

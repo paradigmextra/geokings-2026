@@ -65,7 +65,7 @@ const Footer = () => (
         <div>
           <h4 className="font-heading font-semibold text-lg mb-4">Contact Us</h4>
           <ul className="space-y-3 text-sm opacity-80">
-            <li className="flex gap-2"><MapPin className="w-4 h-4 text-accent shrink-0 mt-0.5" /><span>Area 3, Off Paul Kagame Road<br />Lilongwe, Malawi</span></li>
+            <li className="flex gap-2"><MapPin className="w-4 h-4 text-accent shrink-0 mt-0.5" /><span>Area 4, Off Paul Kagame Road<br />Lilongwe, Malawi</span></li>
             <li className="flex gap-2"><Phone className="w-4 h-4 text-accent shrink-0" /><span>+265 983 333 061<br />+265 881 313 475</span></li>
             <li className="flex gap-2"><Mail className="w-4 h-4 text-accent shrink-0" /><span>Info@geoking.org</span></li>
             <li className="flex gap-2"><Clock className="w-4 h-4 text-accent shrink-0" /><span>Mon - Fri: 8:00 AM - 5:00 PM<br />Sat: 8:00 AM - 12:00 PM</span></li>
