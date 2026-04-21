@@ -1,4 +1,5 @@
 import Layout from "@/components/Layout";
+import SEO from "@/components/SEO";
 import PageHero from "@/components/PageHero";
 import heroImg from "@/assets/page-hero-portfolio.jpg";
 import { Map, Building2, PenTool, Compass } from "lucide-react";
@@ -22,6 +23,11 @@ const Portfolio = () => {
 
   return (
     <Layout>
+      <SEO
+        title="Portfolio | Geoking Consultancy Projects in Malawi"
+        description="Explore Geoking's completed GIS, surveying, architectural and property management projects delivered across Lilongwe, Mzuzu, Mangochi and beyond."
+        canonical="/portfolio"
+      />
       <PageHero title="Portfolio" subtitle="Explore our completed projects across Malawi." bgImage={heroImg} />
 
       <section className="py-20">

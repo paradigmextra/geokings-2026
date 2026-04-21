@@ -1,4 +1,5 @@
 import Layout from "@/components/Layout";
+import SEO from "@/components/SEO";
 import PageHero from "@/components/PageHero";
 import heroImg from "@/assets/page-hero-properties.jpg";
 import { MapPin, Building2, Search } from "lucide-react";
@@ -25,6 +26,12 @@ const Properties = () => {
 
   return (
     <Layout>
+      <SEO
+        title="Properties for Sale in Malawi | Geoking Real Estate"
+        description="Browse houses, land and commercial properties for sale in Lilongwe, Mangochi and across Malawi with Geoking Consultancy."
+        canonical="/properties"
+        keywords="properties Malawi, houses for sale Lilongwe, land for sale Malawi, real estate Lilongwe"
+      />
       <PageHero title="Properties" subtitle="Browse our available properties across Malawi." bgImage={heroImg} />
 
       <section className="py-10">
