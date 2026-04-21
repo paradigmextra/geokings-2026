@@ -1,4 +1,5 @@
 import Layout from "@/components/Layout";
+import SEO from "@/components/SEO";
 import PageHero from "@/components/PageHero";
 import heroImg from "@/assets/page-hero-contact.jpg";
 import { MapPin, Phone, Mail, Clock, MessageSquare } from "lucide-react";
@@ -15,6 +16,12 @@ const Contact = () => {
 
   return (
     <Layout>
+      <SEO
+        title="Contact Geoking Consultancy | Lilongwe, Malawi"
+        description="Get in touch with Geoking Consultancy in Lilongwe, Malawi. Phone +265 983 333 061 / +265 881 313 475. Email Info@geoking.org."
+        canonical="/contact"
+        keywords="contact Geoking, GIS consultant Lilongwe, property valuer Malawi, Geoking phone"
+      />
       <PageHero title="Contact Us" subtitle="Get in touch with our team. We're here to help with all your GIS and property needs." bgImage={heroImg} />
 
       <section className="py-20">

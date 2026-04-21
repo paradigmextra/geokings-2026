@@ -1,4 +1,5 @@
 import Layout from "@/components/Layout";
+import SEO from "@/components/SEO";
 import PageHero from "@/components/PageHero";
 import heroImg from "@/assets/page-hero-blog.jpg";
 import { Link } from "react-router-dom";
@@ -13,6 +14,12 @@ const posts = [
 
 const Blog = () => (
   <Layout>
+    <SEO
+      title="Blog & Insights | GIS, Land & Property in Malawi"
+      description="Read expert articles on Malawi's land laws, GIS technology in agriculture, property valuation and urban planning from the Geoking team."
+      canonical="/blog"
+      keywords="Malawi land laws blog, GIS Malawi, property valuation Malawi, urban planning Lilongwe"
+    />
     <PageHero title="Blog & Insights" subtitle="Articles on land, property, GIS technology, and more." bgImage={heroImg} />
 
     <section className="py-20">

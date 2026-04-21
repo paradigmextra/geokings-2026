@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import Layout from "@/components/Layout";
+import SEO from "@/components/SEO";
 import PageHero from "@/components/PageHero";
 import heroImg from "@/assets/page-hero-services.jpg";
 import {
@@ -24,6 +25,12 @@ import { MapPin } from "lucide-react";
 
 const Services = () => (
   <Layout>
+    <SEO
+      title="Our Services | GIS, Surveying, Valuation & Architecture in Malawi"
+      description="Explore Geoking's full range of services: GIS, land surveying, property valuation, architectural design, quantity surveying, training and more across Malawi."
+      canonical="/services"
+      keywords="GIS services Malawi, land surveying Lilongwe, property valuation, architectural services, quantity surveying"
+    />
     <PageHero title="Our Services" subtitle="End-to-end geospatial and property solutions tailored for Malawi." bgImage={heroImg} />
 
     <section className="py-20">
