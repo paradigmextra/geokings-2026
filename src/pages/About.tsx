@@ -2,7 +2,7 @@ import Layout from "@/components/Layout";
 import PageHero from "@/components/PageHero";
 import heroImg from "@/assets/page-hero-about.jpg";
 import founderImg from "@/assets/founder-chifundo.jpg";
-import { Eye, Target, Shield, Lightbulb, CheckCircle, Award, Linkedin, Mail } from "lucide-react";
+import { Eye, Target, Shield, Lightbulb, CheckCircle, Award, Linkedin, Mail, GraduationCap } from "lucide-react";
 
 const values = [
   { icon: Lightbulb, title: "Innovation", desc: "Embracing cutting-edge geospatial technology." },
@@ -62,6 +62,19 @@ const About = () => (
                 land management, and digital innovation. He is dedicated to using technology to solve
                 real-world challenges in land systems, agriculture, and urban development in Malawi.
               </p>
+
+              {/* Qualifications */}
+              <div className="mb-6 p-4 rounded-xl bg-muted/60 border border-border">
+                <div className="flex items-center gap-2 mb-2">
+                  <GraduationCap className="w-4 h-4 text-accent" />
+                  <h4 className="font-heading text-sm font-semibold text-foreground uppercase tracking-wide">Qualifications</h4>
+                </div>
+                <ul className="space-y-1.5 text-sm text-muted-foreground">
+                  <li className="flex gap-2"><CheckCircle className="w-4 h-4 text-primary shrink-0 mt-0.5" /><span>BSc in Geography (Major: GIS)</span></li>
+                  <li className="flex gap-2"><CheckCircle className="w-4 h-4 text-primary shrink-0 mt-0.5" /><span>MSc in Project Management</span></li>
+                </ul>
+              </div>
+
               <div className="flex flex-wrap gap-2">
                 <span className="text-xs font-medium px-3 py-1.5 rounded-full bg-primary/10 text-primary">Geospatial Solutions</span>
                 <span className="text-xs font-medium px-3 py-1.5 rounded-full bg-accent/10 text-accent">Land Management</span>
