@@ -1,4 +1,5 @@
 import Layout from "@/components/Layout";
+import SEO from "@/components/SEO";
 import PageHero from "@/components/PageHero";
 import heroImg from "@/assets/page-hero-about.jpg";
 import founderImg from "@/assets/founder-chifundo.jpg";
