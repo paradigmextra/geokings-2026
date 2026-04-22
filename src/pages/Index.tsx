@@ -7,16 +7,21 @@ import testimonialVictor from "@/assets/testimonial-victor.jpg";
 import testimonialGrace from "@/assets/testimonial-grace.jpg";
 import testimonialPeter from "@/assets/testimonial-peter.jpg";
 import testimonialChisomo from "@/assets/testimonial-chisomo.jpg";
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import {
   Building2, FileCheck, Compass, PenTool, Calculator, Map,
   BookOpen, FileText, GraduationCap, MapPin, Users, CheckCircle,
   ArrowRight, Play, Target, Eye, Star, Quote, Home as HomeIcon
 } from "lucide-react";
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: (i: number) => ({ opacity: 1, y: 0, transition: { duration: 0.5, delay: i * 0.1 } }),
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 60, scale: 0.95 },
+  visible: (i: number = 0) => ({
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.7, delay: i * 0.12, ease: "easeOut" },
+  }),
 };
 
 const stats = [
