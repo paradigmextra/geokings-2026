@@ -15,8 +15,18 @@ import {
 } from "lucide-react";
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: (i: number) => ({ opacity: 1, y: 0, transition: { duration: 0.5, delay: i * 0.1 } }),
+  hidden: { opacity: 0, y: 60, scale: 0.95 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.7, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] },
+  }),
+};
+
+const popIn = {
+  hidden: { opacity: 0, y: 40 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } },
 };
 
 const stats = [
