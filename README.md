@@ -1,4 +1,6 @@
-# Welcome to your Lovable project
+# Geoking Consultancy
+
+The application now runs on **Next.js** with a database-backed admin portal at `/admin`, client accounts at `/client`, and PayChangu integration. See [SETUP.md](./SETUP.md) for current setup, admin credentials, payment configuration, and deployment instructions. The original Lovable notes below describe the pre-migration project.
 
 ## Project info
 
