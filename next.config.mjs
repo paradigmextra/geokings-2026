@@ -1,1 +1,1 @@
-export default { reactStrictMode: true };
+export default { reactStrictMode: true, agentRules: false, devIndicators: false };
