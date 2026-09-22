@@ -13,6 +13,7 @@
     "test:watch": "vitest",
     "start": "next start",
     "admin:create": "tsx --env-file=.env.local scripts/create-admin.ts",
+    "db:import": "node --env-file=.env.local scripts/import-schema.mjs",
     "typecheck": "tsc --noEmit",
     "test:integration": "node scripts/integration-test.mjs"
   },

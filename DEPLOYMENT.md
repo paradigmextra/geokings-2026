@@ -5,6 +5,7 @@ The quickest deployment for the current code is one Render web service, one Turs
 ## 1. Create the persistent services
 
 1. Create a free Turso account and database. Copy the libSQL database URL and database auth token.
+   Put the database URL and token in `.env.local`, then import `database/schema.sql` with `npm run db:import`. You can alternatively use the Turso dashboard SQL console or `turso db shell YOUR_DATABASE < database/schema.sql`.
 2. In Cloudflare R2, create a **private Standard** bucket named `geoking-kyc`.
 3. Create an R2 API token limited to Object Read & Write for this bucket. Do not enable its public `r2.dev` URL.
 
