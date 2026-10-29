@@ -155,17 +155,18 @@
 .skip-link { position: fixed; top: 1rem; left: 1rem; z-index: 200; transform: translateY(-180%); padding: .75rem 1.25rem; background: white; color: hsl(var(--secondary)); border-radius: .75rem; }
 .skip-link:focus { transform: translateY(0); }
 .mobile-contact { padding-bottom: max(.75rem, env(safe-area-inset-bottom)); }
-.testimonial-window { height: 34rem; overflow: hidden; mask-image: linear-gradient(to bottom, transparent, black 5%, black 95%, transparent); }
-.testimonial-track { animation: testimonial-rise linear infinite; }
+/* Matching repeated groups give the horizontal strip a seamless loop. */
+.testimonial-window { overflow-x: auto; scrollbar-width: none; overscroll-behavior-x: contain; }
+.testimonial-window::-webkit-scrollbar { display: none; }
+.testimonial-track { display: flex; width: max-content; animation: testimonial-drift 48s linear infinite; }
+.testimonial-group { display: flex; align-items: stretch; gap: 20px; padding-right: 20px; }
 .testimonial-window:hover .testimonial-track,
 .testimonial-window:focus-within .testimonial-track,
 .testimonial-window[data-paused="true"] .testimonial-track { animation-play-state: paused; }
-@keyframes testimonial-rise { to { transform: translateY(-50%); } }
+@keyframes testimonial-drift { to { transform: translateX(-50%); } }
 @media (prefers-reduced-motion: reduce) {
-  .testimonial-window { height: auto; overflow: visible; mask-image: none; }
   .testimonial-track { animation: none; transform: none; }
-  .testimonial-copy, .testimonial-column[aria-hidden="true"], .testimonial-control { display: none; }
-  .testimonial-window { grid-template-columns: 1fr; }
+  .testimonial-copy { display: none; }
 }
 @media (max-width: 767px) {
   .public-layout { padding-bottom: calc(5rem + env(safe-area-inset-bottom)); }

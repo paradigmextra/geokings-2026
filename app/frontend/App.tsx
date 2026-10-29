@@ -50,8 +50,8 @@ const App = () => {
         <ScrollToTop />
         <PublicExtras />
         <Routes>
-          <Route path="/admin" element={<Portal admin />} />
-          <Route path="/client" element={<Portal />} />
+          <Route path="/admin" element={<Portal key="admin" admin />} />
+          <Route path="/client" element={<Portal key="client" />} />
           <Route path="/" element={<Index />} />
           <Route path="/about" element={<About />} />
           <Route path="/services" element={<Services />} />

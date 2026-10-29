@@ -1,6 +1,8 @@
+import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription, DrawerClose } from "@/components/ui/drawer";
+import PortalAuth from "@/components/PortalAuth";
 import { useCallback, useEffect, useState, type FormEvent } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Building2, LayoutDashboard, Users, CreditCard, Heart, LogOut, ArrowUpRight, Search, MapPin, Plus, ShieldCheck, Home, Store, BadgeCheck } from 'lucide-react';
+import { Building2, LayoutDashboard, Users, CreditCard, Heart, LogOut, ArrowUpRight, Search, MapPin, Plus, ShieldCheck, Home, Store, BadgeCheck, PanelLeftClose, PanelLeftOpen, Menu, X } from 'lucide-react';
 import { portalApi, portalUpload } from '@/lib/api';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -22,6 +24,8 @@ export default function Portal({ admin = false }: {
     const [register, setRegister] = useState(false);
     const [busy, setBusy] = useState(false);
     const [tab, setTab] = useState('Overview');
+    const [moreOpen, setMoreOpen] = useState(false);
+    const [sidebarOpen, setSidebarOpen] = useState(true);
     const [search, setSearch] = useState('');
     const [type, setType] = useState('All');
     const [selected, setSelected] = useState<Property | null>(null);
@@ -77,6 +81,7 @@ export default function Portal({ admin = false }: {
         setBusy(true);
         setError('');
         const values = Object.fromEntries(new FormData(event.currentTarget));
+        if (register && values.password !== values.confirmPassword) { setError('Your passwords do not match.'); setBusy(false); return; }
         try {
             await request('auth/' + (register ? 'register' : 'login'), 'POST', values);
             await refresh();
@@ -106,26 +111,7 @@ export default function Portal({ admin = false }: {
     if (loading)
         return <main className="min-h-screen grid place-items-center bg-muted"><p role="status">Loading your workspace…</p></main>;
     if (!data)
-        return <main className="min-h-[100dvh] grid lg:grid-cols-2 bg-[#f4f7f7]">
-    <section className="hero-gradient text-white p-8 lg:p-16 hidden lg:flex flex-col justify-between">
-      <Brand light/><div className="py-12 max-w-lg"><p className="text-sm uppercase tracking-[.25em] text-white/70 mb-5">Your next chapter starts here</p><h1 className="text-4xl lg:text-5xl font-bold leading-tight">A place to call<br />your own.</h1><p className="mt-6 text-white/75 leading-relaxed">Discover property across Malawi. Keep your favourites together and manage your journey with Geoking.</p></div>
-      <p className="text-sm text-white/60 flex gap-2 items-center"><ShieldCheck size={18}/> Secure access to your Geoking account</p>
-    </section>
-    <section className="min-h-[100dvh] p-4 sm:p-8 lg:p-16 flex items-center justify-center"><div className="w-full max-w-md bg-white p-5 sm:p-8 rounded-[1.75rem] border shadow-xl shadow-secondary/5">
-      <div className="lg:hidden mb-8"><Brand/></div>
-      <p className="section-label mb-3">{admin ? 'Administration' : 'Client portal'}</p><h2 className="text-2xl font-semibold">{register ? 'Create your account' : 'Welcome back'}</h2><p className="text-muted-foreground mt-2 mb-7">{admin ? 'Sign in with your administrator account.' : register ? 'Find your next property with Geoking.' : 'Sign in to continue your property journey.'}</p>
-      <form onSubmit={authenticate} className="space-y-5">{register && <Field label="Full name"><Input name="name" autoComplete="name" minLength={2} maxLength={100} required/></Field>}
-        {register ? <Field label="Email address"><Input name="email" type="email" autoComplete="email" required/></Field> : <Field label={admin ? 'Username' : 'Email address'}><Input name="identifier" type={admin ? 'text' : 'email'} autoComplete="username" required/></Field>}
-        {register && <Field label="I want to"><select name="accountType" className={selectClass} defaultValue="buyer"><option value="buyer">Buy properties</option><option value="seller">Sell properties</option></select></Field>}
-        <Field label="Password"><Input name="password" type="password" autoComplete={register ? 'new-password' : 'current-password'} minLength={register ? 12 : 1} maxLength={72} required/></Field>
-        {register && <p className="text-xs text-muted-foreground">Use at least 12 characters for your password.</p>}
-        {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
-        <Button disabled={busy} className="w-full">{busy ? 'Please wait…' : register ? 'Create account' : 'Sign in'} <ArrowUpRight size={16}/></Button>
-      </form>
-      {!admin && <p className="text-sm text-center mt-6">{register ? 'Already have an account?' : 'New to Geoking?'} <button className="text-primary font-semibold" onClick={() => { setRegister(!register); setError(''); }}>{register ? 'Sign in' : 'Create account'}</button></p>}
-      <Link to="/" className="block mt-8 text-center text-sm text-muted-foreground">← Back to website</Link>
-    </div></section>
-  </main>;
+        return <PortalAuth admin={admin} register={register} busy={busy} error={error} onModeChange={value => { setRegister(value); setError(''); }} onSubmit={authenticate}/>;
     const seller = !admin && data.user.account_type === 'seller';
     const tabs = admin ? [['Overview', LayoutDashboard], ['Properties', Building2], ['Users', Users], ['Seller KYC', BadgeCheck], ['Payments', CreditCard], ['Settings', ShieldCheck]] as const : seller ? [['Overview', LayoutDashboard], ['Properties', Building2], ['My listings', Store], ['KYC', BadgeCheck], ['Payments', CreditCard], ['Account', Users]] as const : [['Overview', LayoutDashboard], ['Properties', Building2], ['Saved properties', Heart], ['Payments', CreditCard], ['Account', Users]] as const;
     const clients = data.users.filter(u => u.role === 'client');
@@ -133,26 +119,38 @@ export default function Portal({ admin = false }: {
     const sourceProperties = tab === 'My listings' ? data.myListings : data.properties;
     const filtered = sourceProperties.filter(p => (tab !== 'Saved properties' || data.saved.includes(p.id)) && (type === 'All' || p.type === type) && `${p.title} ${p.location}`.toLowerCase().includes(search.toLowerCase()));
     const stats = admin ? [['Registered clients', clients.length], ['Available properties', data.properties.filter(p => p.status === 'available').length], ['Pending payments', data.payments.filter(p => p.status === 'pending').length], ['Verified revenue', money(paid.reduce((sum, p) => sum + Number(p.amount), 0))]] : [['Available properties', data.properties.filter(p => p.status === 'available').length], ['Saved properties', data.saved.length], ['Purchases', paid.length], ['Total paid', money(paid.reduce((sum, p) => sum + Number(p.amount), 0))]];
+    const primaryLabels = admin ? ['Overview', 'Properties', 'Payments'] : seller ? ['Overview', 'Properties', 'My listings'] : ['Overview', 'Properties', 'Saved properties'];
+    const primaryTabs = tabs.filter(([label]) => primaryLabels.includes(label));
+    const shortLabel = (label: string) => ({ 'Overview':'Home', 'Saved properties':'Saved', 'My listings':'Listings', 'Seller KYC':'Seller KYC' } as Record<string,string>)[label] || label;
+    async function signOut() {
+        setBusy(true);
+        try { await request('auth/logout', 'POST'); setMoreOpen(false); setData(null); setTab('Overview'); }
+        catch (e) { toast.error((e as Error).message); }
+        finally { setBusy(false); }
+    }
     async function checkout(p: Property) { await action(async () => { const result = await request<{ url: string }>('payments/checkout', 'POST', { propertyId: p.id }); window.location.assign(result.url); }); }
-    return <div className="min-h-[100dvh] bg-[#f5f7f8] lg:pl-64">
-    <aside className="hidden bg-secondary text-white lg:fixed lg:inset-y-0 lg:left-0 lg:w-64 lg:flex flex-col p-7">
-      <Brand light/><p className="text-[10px] uppercase tracking-[.2em] text-white/45 mt-8 mb-3">{admin ? 'Management workspace' : 'Your property workspace'}</p>
-      <nav aria-label="Dashboard" className="flex gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:flex-col lg:overflow-visible">{tabs.map(([label, Icon]) => <button key={label} onClick={() => { setTab(label); setSearch(''); }} className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm text-left whitespace-nowrap ${tab === label ? 'bg-white/15 text-white' : 'text-white/65 hover:bg-white/10'}`}><Icon size={18}/>{label}</button>)}</nav>
-      <div className="mt-auto pt-8 hidden lg:block"><div className="rounded-xl bg-white/5 p-4 text-sm text-white/65">Property decisions,<br /><span className="text-white">made with confidence.</span></div><Link to="/" className="flex items-center gap-2 text-sm text-white/60 mt-6"><Home size={16}/> Back to website</Link></div>
+    return <div className={`min-h-[100dvh] bg-[#f5f7f8] transition-[padding] duration-300 ${sidebarOpen ? 'lg:pl-64' : 'lg:pl-20'}`}>
+    <aside aria-label="Workspace sidebar" className={`fixed inset-y-0 left-0 z-40 hidden flex-col overflow-x-hidden bg-secondary text-white transition-[width] duration-300 lg:flex ${sidebarOpen ? 'w-64 p-6' : 'w-20 p-3'}`}>
+      {sidebarOpen ? <Brand light/> : <Link to="/" aria-label="Geoking home" className="mx-auto"><img src="/assets/logo.png" alt="" width={44} height={44} className="h-11 w-11 rounded-xl bg-white p-1"/></Link>}
+      <p className={`mb-4 mt-10 whitespace-nowrap text-[10px] uppercase tracking-[.16em] text-white/45 ${sidebarOpen ? '' : 'sr-only'}`}>{admin ? 'Management workspace' : 'Your property workspace'}</p>
+      <nav id="workspace-sidebar" aria-label="Dashboard" className={`flex flex-col gap-2 ${sidebarOpen ? '' : 'mt-10'}`}>{tabs.map(([label, Icon]) => <button key={label} title={label} aria-label={label} aria-current={tab === label ? 'page' : undefined} onClick={() => { setTab(label); setSearch(''); }} className={`flex min-h-12 items-center rounded-xl text-left text-sm transition-colors ${sidebarOpen ? 'gap-3 px-4' : 'justify-center px-0'} ${tab === label ? 'bg-white/15 text-white' : 'text-white/65 hover:bg-white/10'}`}><Icon size={20} className="shrink-0"/>{sidebarOpen && <span className="whitespace-nowrap">{label}</span>}</button>)}</nav>
+      <Link to="/" title="Back to website" className={`mt-auto flex min-h-12 items-center gap-3 rounded-xl text-sm text-white/60 hover:text-white ${sidebarOpen ? 'px-4' : 'justify-center'}`}><Home size={20} className="shrink-0"/>{sidebarOpen && 'Back to website'}</Link>
     </aside>
-    <nav aria-label="Mobile dashboard" className="fixed inset-x-3 bottom-3 z-50 flex gap-1 overflow-x-auto rounded-2xl border border-white/10 bg-secondary/95 p-2 text-white shadow-2xl backdrop-blur-lg [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:hidden">{tabs.map(([label, Icon]) => <button key={label} onClick={() => { setTab(label); setSearch(''); }} aria-label={label} className={`flex min-w-[4.5rem] flex-1 flex-col items-center gap-1 rounded-xl px-1 py-2 text-[10px] transition-colors ${tab === label ? 'bg-white/15 text-white' : 'text-white/60'}`}><Icon size={19}/><span className="max-w-full truncate">{label.replace(' properties', '')}</span></button>)}</nav>
-    <header className="sticky top-0 z-40 bg-white/95 border-b px-4 sm:px-6 lg:px-10 py-3 sm:py-4 flex justify-between items-center backdrop-blur"><div className="flex items-center gap-3"><div className="lg:hidden"><Brand/></div><div className="hidden lg:block"><p className="text-xs text-muted-foreground">Geoking Consultancy</p><p className="font-medium text-sm mt-1">{admin ? 'Admin' : 'Client'} dashboard</p></div></div><div className="flex gap-3 items-center"><div className="hidden sm:block text-right"><p className="text-sm font-semibold">{data.user.name}</p><p className="text-xs text-muted-foreground capitalize">{data.user.role}</p></div><Button variant="ghost" size="icon" aria-label={`Sign out of ${admin ? 'admin' : 'client'} portal`} disabled={busy} onClick={async () => { setBusy(true); try {
-        await request('auth/logout', 'POST');
-        setData(null);
-        setTab('Overview');
-    }
-    catch (e) {
-        toast.error((e as Error).message);
-    }
-    finally {
-        setBusy(false);
-    } }}><LogOut size={18}/></Button></div></header>
-    <main className="p-4 pb-28 sm:p-6 sm:pb-28 lg:p-10 lg:pb-10 max-w-[1600px] mx-auto">
+    <Drawer open={moreOpen} onOpenChange={setMoreOpen} shouldScaleBackground={false}>
+      <nav aria-label="Mobile dashboard" className="fixed inset-x-0 bottom-0 z-50 grid grid-cols-4 border-t border-primary/10 bg-white px-2 pt-2 pb-[max(.5rem,env(safe-area-inset-bottom))] shadow-[0_-4px_24px_rgba(16,46,52,.06)] lg:hidden">
+        {primaryTabs.map(([label, Icon]) => <button key={label} aria-label={label} aria-current={tab === label ? 'page' : undefined} onClick={() => { setTab(label); setSearch(''); setMoreOpen(false); }} className={`flex min-h-14 min-w-0 flex-col items-center justify-center gap-1 rounded-xl px-1 text-[11px] font-semibold ${tab === label ? 'bg-primary/10 text-primary' : 'text-muted-foreground'}`}><Icon size={22} strokeWidth={tab === label ? 2.2 : 1.7}/><span>{shortLabel(label)}</span></button>)}
+        <DrawerTrigger asChild><button type="button" aria-label="More workspace options" className={`flex min-h-14 flex-col items-center justify-center gap-1 rounded-xl text-[11px] font-semibold ${moreOpen || !primaryLabels.includes(tab) ? 'bg-primary/10 text-primary' : 'text-muted-foreground'}`}><Menu size={22}/><span>More</span></button></DrawerTrigger>
+      </nav>
+      <DrawerContent className="max-h-[70dvh] rounded-t-3xl px-5 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
+        <DrawerHeader className="relative px-0 pb-4 pt-4 text-left"><DrawerTitle className="font-heading text-xl">Your workspace</DrawerTitle><DrawerDescription>{data.user.name} · {admin ? 'Administrator' : seller ? 'Seller account' : 'Buyer account'}</DrawerDescription><DrawerClose asChild><button type="button" aria-label="Close workspace menu" className="absolute right-0 top-3 grid h-11 w-11 place-items-center rounded-full bg-muted text-secondary"><X size={20}/></button></DrawerClose></DrawerHeader>
+        <div className="min-h-0 overflow-y-auto overscroll-contain">
+          <nav aria-label="All workspace options" className="grid grid-cols-3 gap-2">{tabs.map(([label, Icon]) => <button key={label} aria-label={label} aria-current={tab === label ? 'page' : undefined} onClick={() => { setTab(label); setSearch(''); setMoreOpen(false); }} className={`flex min-h-20 flex-col items-center justify-center gap-2 rounded-2xl p-2 text-xs font-semibold ${tab === label ? 'bg-primary/10 text-primary' : 'bg-muted/60 text-secondary hover:bg-muted'}`}><Icon size={23} strokeWidth={1.7}/><span>{shortLabel(label)}</span></button>)}</nav>
+          <div className="mt-5 grid grid-cols-2 gap-3 border-t pt-4"><Link to="/" className="flex min-h-12 items-center justify-center gap-2 rounded-xl border text-sm font-medium text-secondary"><Home size={18}/> Website</Link><button type="button" disabled={busy} onClick={signOut} className="flex min-h-12 items-center justify-center gap-2 rounded-xl border text-sm font-medium text-secondary"><LogOut size={18}/> Sign out</button></div>
+        </div>
+      </DrawerContent>
+    </Drawer>
+    <header className="sticky top-0 z-40 bg-white/95 border-b px-4 sm:px-6 lg:px-10 py-3 sm:py-4 flex justify-between items-center backdrop-blur"><div className="flex min-w-0 items-center gap-3"><button type="button" aria-label={sidebarOpen ? "Collapse navigation" : "Expand navigation"} aria-expanded={sidebarOpen} aria-controls="workspace-sidebar" onClick={() => setSidebarOpen(value => !value)} className="hidden h-11 w-11 place-items-center rounded-xl border border-border text-secondary hover:bg-muted lg:grid">{sidebarOpen ? <PanelLeftClose size={20}/> : <PanelLeftOpen size={20}/>}</button><div className="lg:hidden"><Brand/></div><div className="hidden lg:block"><p className="text-xs text-muted-foreground">Geoking Consultancy</p><p className="font-medium text-sm mt-1">{admin ? 'Admin' : 'Client'} dashboard</p></div></div><div className="flex gap-3 items-center"><div className="hidden sm:block text-right"><p className="text-sm font-semibold">{data.user.name}</p><p className="text-xs text-muted-foreground capitalize">{data.user.role}</p></div><Button variant="ghost" size="icon" aria-label={`Sign out of ${admin ? 'admin' : 'client'} portal`} disabled={busy} onClick={signOut}><LogOut size={18}/></Button></div></header>
+    <main className="p-4 pb-[calc(6rem+env(safe-area-inset-bottom))] sm:p-6 sm:pb-[calc(6rem+env(safe-area-inset-bottom))] lg:p-10 lg:pb-10 max-w-[1600px] mx-auto">
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4 mb-6 sm:mb-8"><div><p className="section-label mb-2">{tab === 'Overview' ? 'A little closer to your goals' : 'Your workspace'}</p><h1 className="text-2xl lg:text-3xl font-semibold">{tab === 'Overview' ? `Welcome, ${data.user.name.split(' ')[0]}` : tab}</h1><p className="text-muted-foreground text-sm mt-2 max-w-2xl">{admin ? 'Manage properties, clients, seller verification and payments.' : seller ? 'List properties and track their approval from your seller workspace.' : 'Explore opportunities and keep track of your property journey.'}</p></div>{((admin && (tab === 'Properties' || tab === 'Overview')) || (seller && tab === 'My listings')) && <Button className="w-full sm:w-auto" disabled={!admin && data.user.kyc_status !== 'approved'} onClick={() => setEditor({ ...blankProperty })}><Plus size={16}/> Add property</Button>}</div>
       {tab === 'Overview' && <>
         <div className="grid grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8">{stats.map(([label, value]) => <div key={label} className="rounded-2xl border bg-white p-4 sm:p-6 shadow-sm"><p className="text-xs sm:text-sm text-muted-foreground">{label}</p><p className="text-xl sm:text-2xl font-semibold mt-3 text-secondary break-words">{value}</p></div>)}</div>
@@ -227,6 +225,8 @@ function PaymentTable({ payments, admin, busy, verify }: {
     admin: boolean;
     busy: boolean;
     verify: (id: string) => void;
-}) { return <div className="overflow-x-auto rounded-2xl border bg-white"><table className="min-w-[680px] w-full text-left text-sm"><thead className="bg-muted"><tr>{['Property', ...(admin ? ['Client'] : []), 'Amount', 'Status', 'Actions'].map(t => <th className="p-4" key={t}>{t}</th>)}</tr></thead><tbody>{payments.map(p => <tr key={p.id} className="border-t"><td className="p-4"><p className="font-medium">{p.title}</p><p className="text-xs text-muted-foreground mt-1">{p.created_at.slice(0, 10)}</p><p className="text-[10px] text-muted-foreground mt-1 break-all">{p.id}</p></td>{admin && <td className="p-4">{p.customer || 'Deleted account'}</td>}<td className="p-4 whitespace-nowrap">{money(Number(p.amount))}</td><td className="p-4"><Status value={p.status}/></td><td className="p-4">{p.status === 'pending' && <div className="flex gap-2"><Button size="sm" variant="outline" disabled={busy} onClick={() => verify(p.id)}>Check status</Button>{!admin && p.checkout_url && <Button size="sm" asChild><a href={p.checkout_url}>Continue payment</a></Button>}</div>}</td></tr>)}</tbody></table>{!payments.length && <Empty text="No payments yet. Transactions will appear here when checkout starts."/>}</div>; }
+}) {
+    if (!payments.length) return <Empty text="No payments yet. Transactions will appear here when checkout starts."/>;
+    return <div className="overflow-x-auto rounded-2xl border bg-white"><table className="min-w-[680px] w-full text-left text-sm"><thead className="bg-muted"><tr>{['Property', ...(admin ? ['Client'] : []), 'Amount', 'Status', 'Actions'].map(t => <th className="p-4" key={t}>{t}</th>)}</tr></thead><tbody>{payments.map(p => <tr key={p.id} className="border-t"><td className="p-4"><p className="font-medium">{p.title}</p><p className="text-xs text-muted-foreground mt-1">{p.created_at.slice(0, 10)}</p><p className="text-[10px] text-muted-foreground mt-1 break-all">{p.id}</p></td>{admin && <td className="p-4">{p.customer || 'Deleted account'}</td>}<td className="p-4 whitespace-nowrap">{money(Number(p.amount))}</td><td className="p-4"><Status value={p.status}/></td><td className="p-4">{p.status === 'pending' && <div className="flex gap-2"><Button size="sm" variant="outline" disabled={busy} onClick={() => verify(p.id)}>Check status</Button>{!admin && p.checkout_url && <Button size="sm" asChild><a href={p.checkout_url}>Continue payment</a></Button>}</div>}</td></tr>)}</tbody></table>{!payments.length && <Empty text="No payments yet. Transactions will appear here when checkout starts."/>}</div>; }
 
 

@@ -4,6 +4,12 @@ import { serviceData } from '../../content/services';
 
 export default function Footer() {
   return <footer className="bg-[#102e34] text-white">
+    <div className="container py-7 md:hidden">
+      <div className="flex items-center justify-between gap-4"><Link to="/" className="font-heading text-lg font-bold tracking-tight">GEOKING<span className="text-teal-300">.</span></Link><span className="text-xs text-white/60">Lilongwe, Malawi</span></div>
+      <nav aria-label="Mobile footer" className="mt-3 flex flex-wrap gap-x-5 text-sm text-white/80"><Link to="/about" className="inline-flex min-h-11 items-center">About</Link><Link to="/contact" className="inline-flex min-h-11 items-center">Contact</Link><Link to="/privacy-policy" className="inline-flex min-h-11 items-center">Privacy</Link><Link to="/terms-of-service" className="inline-flex min-h-11 items-center">Terms</Link></nav>
+      <p className="mt-3 border-t border-white/10 pt-4 text-[11px] text-white/50">© {new Date().getFullYear()} Geoking Consultancy.</p>
+    </div>
+    <div className="hidden md:block">
     <div className="bg-[#f1f3ec] text-secondary">
       <div className="container grid gap-7 py-12 sm:py-16 lg:grid-cols-[1fr_auto] lg:items-end">
         <div><p className="mb-4 text-xs font-semibold uppercase tracking-[.2em] text-primary">Your next project starts here</p><h2 className="max-w-2xl font-heading text-3xl font-semibold leading-[1.15] sm:text-4xl lg:text-5xl">A clearer view.<br/>A better way forward.</h2></div>
@@ -26,6 +32,7 @@ export default function Footer() {
         <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm"><a href="tel:+265983333061" className="flex min-h-11 items-center text-white/80 hover:text-teal-200">+265 983 333 061</a><a href="tel:+265881313475" className="flex min-h-11 items-center text-white/80 hover:text-teal-200">+265 881 313 475</a><a href="https://web.facebook.com/geokingconsultancy/" target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center gap-2 text-teal-200">Facebook <ArrowUpRight size={15} aria-hidden="true"/></a></div>
       </div>
       <div className="flex flex-col justify-between gap-4 py-6 text-xs text-white/60 md:flex-row md:items-center"><p>© {new Date().getFullYear()} Geoking Consultancy.</p><nav aria-label="Legal" className="flex flex-wrap gap-x-5 gap-y-2"><Link to="/privacy-policy" className="inline-flex min-h-10 items-center hover:text-white">Privacy</Link><Link to="/terms-of-service" className="inline-flex min-h-10 items-center hover:text-white">Terms</Link><Link to="/cookie-policy" className="inline-flex min-h-10 items-center hover:text-white">Cookies</Link></nav><p className="text-white/40">Rooted in Malawi. Looking ahead.</p></div>
+    </div>
     </div>
   </footer>;
 }

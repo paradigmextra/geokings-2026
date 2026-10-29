@@ -1,3 +1,4 @@
+import PropertyIllustration from "@/components/PropertyIllustration";
 import ServiceIcon from "@/components/ServiceIcon";
 import Testimonials from "@/components/Testimonials";
 import Image from "next/image";
@@ -10,10 +11,6 @@ import { api } from "@/lib/api";
 import type { Property } from "@/lib/portal-types";
 const logo = "/assets/logo.png";
 const heroBg = "/assets/hero-bg.jpg";
-const testimonialVictor = "/assets/testimonial-victor.jpg";
-const testimonialGrace = "/assets/testimonial-grace.jpg";
-const testimonialPeter = "/assets/testimonial-peter.jpg";
-const testimonialChisomo = "/assets/testimonial-chisomo.jpg";
 import { motion, type Variants } from "framer-motion";
 import {
   Building2, FileCheck, Compass, PenTool, Calculator, Map,
@@ -48,16 +45,16 @@ const services = [
 ];
 
 const testimonials = [
-  { name: "Victor Mlongoti", role: "Digital Strategist", text: "Geoking transformed how we approach land surveying. Their accuracy and professionalism are unmatched in Malawi.", rating: 5, image: testimonialVictor },
-  { name: "Grace Banda", role: "Agricultural Officer, Salima", text: "The GIS mapping services helped us optimize crop distribution across 200+ hectares. Truly remarkable work.", rating: 4, image: testimonialGrace },
-  { name: "Peter Mwale", role: "Real Estate Investor", text: "Their property valuation was thorough and transparent. I now use Geoking for all my real estate transactions.", rating: 3, image: testimonialPeter },
-  { name: "Chisomo Nkhoma", role: "Urban Planner, Mzuzu", text: "Professional, timely, and incredibly knowledgeable. Geoking is leading the GIS revolution in Malawi.", rating: 4, image: testimonialChisomo },
+  { name: "Victor Mlongoti", role: "Digital Strategist", text: "Geoking transformed how we approach land surveying. Their accuracy and professionalism are unmatched in Malawi.", rating: 5 },
+  { name: "Grace Banda", role: "Agricultural Officer, Salima", text: "The GIS mapping services helped us optimize crop distribution across 200+ hectares. Truly remarkable work.", rating: 4 },
+  { name: "Peter Mwale", role: "Real Estate Investor", text: "Their property valuation was thorough and transparent. I now use Geoking for all my real estate transactions.", rating: 3 },
+  { name: "Chisomo Nkhoma", role: "Urban Planner, Mzuzu", text: "Professional, timely, and incredibly knowledgeable. Geoking is leading the GIS revolution in Malawi.", rating: 4 },
 ];
 
 const featuredProperties = [
   { title: "House for Sale", price: "Coming Soon", location: "Area 47, Lilongwe", type: "House", desc: "Modern 3-bedroom house with spacious living areas." },
-  { title: "House for Sale", price: "Coming Soon", location: "City Centre, Lilongwe", type: "Commercial", desc: "Prime commercial plot in central business district." },
-  { title: "House for Sale", price: "Coming Soon", location: "Area 25, Lilongwe", type: "Land", desc: "Ready for development residential land." },
+  { title: "Commercial Property", price: "Coming Soon", location: "City Centre, Lilongwe", type: "Commercial", desc: "Prime commercial plot in central business district." },
+  { title: "Residential Land", price: "Coming Soon", location: "Area 25, Lilongwe", type: "Land", desc: "Ready for development residential land." },
 ];
 
 const Index = () => {
@@ -271,7 +268,7 @@ const Index = () => {
               variants={fadeUp}
               className="bg-card rounded-xl overflow-hidden border border-border hover:shadow-lg transition-shadow group"
             >
-              <div className="h-48 hero-gradient flex items-center justify-center relative overflow-hidden">{p.image ? <img src={p.image} alt={p.title} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"/> : <Building2 className="w-16 h-16 text-primary-foreground/30 group-hover:scale-110 transition-transform duration-500" />}</div>
+              <div className="h-48 bg-[#eaf2ee] flex items-center justify-center relative overflow-hidden">{p.image ? <img src={p.image} alt={p.title} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"/> : <PropertyIllustration type={p.type} />}</div>
               <div className="p-5">
                 <h3 className="font-heading font-semibold text-foreground mb-1">{p.title}</h3>
                 <p className="text-accent font-bold text-lg mb-1">{p.price}</p>
@@ -335,48 +332,6 @@ const Index = () => {
       </div>
     </section>
 
-    {/* Portfolio Preview */}
-    <section className="bg-muted py-20">
-      <div className="container">
-        <motion.div
-          initial={false}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-12"
-        >
-          <span className="section-label mb-2 block">Our Work</span>
-          <h2 className="font-heading text-3xl font-bold text-foreground">Recent Projects</h2>
-          <p className="text-muted-foreground mt-3 max-w-2xl mx-auto">Showcasing some of our most impactful GIS, surveying, and property management projects across Malawi.</p>
-        </motion.div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {[
-            { title: "Lilongwe City Land Audit", cat: "GIS Projects", desc: "GIS-based land audit covering 500+ parcels for Lilongwe City Council." },
-            { title: "Area 25 Housing Survey", cat: "Survey Projects", desc: "Full cadastral survey for a 200-unit housing development." },
-            { title: "Commercial Complex Design", cat: "Architectural", desc: "Modern 3-storey commercial complex design in City Centre." },
-          ].map((p, i) => (
-            <motion.div
-              key={p.title}
-              custom={i}
-              initial={false}
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeUp}
-              className="service-card"
-            >
-              <span className="text-xs font-semibold text-accent mb-2 block">{p.cat}</span>
-              <h3 className="font-heading font-semibold text-lg mb-2 text-foreground">{p.title}</h3>
-              <p className="text-sm text-muted-foreground">{p.desc}</p>
-            </motion.div>
-          ))}
-        </div>
-        <div className="text-center mt-10">
-          <Link to="/portfolio" className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-full font-semibold hover:opacity-90 transition-opacity">
-            View Full Portfolio <ArrowRight className="w-4 h-4" />
-          </Link>
-        </div>
-      </div>
-    </section>
   </Layout>
   );
 };

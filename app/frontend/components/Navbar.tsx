@@ -85,23 +85,21 @@ export default function Navbar() {
         <button tabIndex={-1} type="button" aria-label="Close navigation backdrop" onClick={() => setMobileOpen(false)} className="absolute inset-0 h-full w-full" />
         <div ref={panel} id="mobile-navigation" role="dialog" aria-modal="true" aria-labelledby="navigation-title" className="absolute inset-y-0 right-0 flex w-full max-w-[440px] flex-col bg-white text-secondary shadow-2xl">
           <div className="flex shrink-0 items-center justify-between border-b px-6 pb-5 pt-[max(1.25rem,env(safe-area-inset-top))]">
-            <div><p className="text-[10px] font-bold uppercase tracking-[.22em] text-primary">Geoking Consultancy</p><h2 id="navigation-title" className="font-heading mt-1 text-xl font-bold">Explore Geoking</h2></div>
+            <div><p className="text-xs font-semibold uppercase tracking-[.16em] text-primary">Geoking Consultancy</p><h2 id="navigation-title" className="font-heading mt-1 text-2xl font-semibold">Explore Geoking</h2></div>
             <button ref={closeButton} type="button" aria-label="Close navigation" onClick={() => setMobileOpen(false)} className="grid h-12 w-12 place-items-center rounded-full border border-secondary/15 bg-muted text-secondary"><X size={22}/></button>
           </div>
           <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-6 py-4">
             <nav aria-label="Mobile navigation">
-              {navItems.map((item, index) => <div key={item.label} className="border-b border-secondary/10">
+              {navItems.map((item) => <div key={item.label} className="border-b border-secondary/10">
                 <div className="flex items-center">
-                  <Link to={item.path} onClick={() => setMobileOpen(false)} aria-current={pathname === item.path ? 'page' : undefined} className={`flex min-h-14 min-w-0 flex-1 items-center gap-4 py-3 font-heading text-lg font-semibold ${pathname === item.path ? 'text-primary' : 'text-secondary'}`}><span aria-hidden="true" className="w-5 text-[10px] font-medium tracking-widest text-primary/65">{String(index + 1).padStart(2, '0')}</span>{item.label}{!item.children && <ArrowUpRight size={17} className="ml-auto text-primary/60" aria-hidden="true"/>}</Link>
+                  <Link to={item.path} onClick={() => setMobileOpen(false)} aria-current={pathname === item.path ? 'page' : undefined} className={`flex min-h-14 min-w-0 flex-1 items-center gap-4 py-3 font-heading text-xl font-medium ${pathname === item.path ? 'text-primary' : 'text-secondary'}`}>{item.label}{!item.children && <ArrowUpRight size={17} className="ml-auto text-primary/60" aria-hidden="true"/>}</Link>
                   {item.children && <button type="button" aria-label={servicesOpen ? 'Hide service links' : 'Show service links'} aria-expanded={servicesOpen} aria-controls="mobile-services" onClick={() => setServicesOpen(value => !value)} className="ml-2 grid h-12 w-12 place-items-center rounded-full bg-muted text-primary"><ChevronDown size={19} className={servicesOpen ? 'rotate-180' : ''}/></button>}
                 </div>
-                {item.children && servicesOpen && <div id="mobile-services" className="mb-3 rounded-xl bg-[#f1f6f3] px-4 py-2">{item.children.map(child => <Link key={child.path} to={child.path} onClick={() => setMobileOpen(false)} className="flex min-h-12 items-center border-b border-primary/10 py-3 text-sm font-medium leading-snug text-secondary last:border-0">{child.label}</Link>)}</div>}
+                {item.children && servicesOpen && <div id="mobile-services" className="mb-3 rounded-xl bg-[#f1f6f3] px-4 py-2">{item.children.map(child => <Link key={child.path} to={child.path} onClick={() => setMobileOpen(false)} className="flex min-h-12 items-center border-b border-primary/10 py-3 text-base font-medium leading-snug text-secondary last:border-0">{child.label}</Link>)}</div>}
               </div>)}
             </nav>
-            <Link to="/client" onClick={() => setMobileOpen(false)} className="mt-6 flex min-h-12 items-center justify-between rounded-xl bg-secondary px-5 font-semibold text-white">Client portal <ArrowUpRight size={18}/></Link>
-            <a href="tel:+265983333061" className="mt-4 flex min-h-11 items-center justify-center text-sm font-semibold text-primary">Talk to us · +265 983 333 061</a>
+            <Link to="/client" onClick={() => setMobileOpen(false)} className="mt-6 mb-3 flex min-h-12 items-center justify-between rounded-xl bg-secondary px-5 font-semibold text-white">Client portal <ArrowUpRight size={18}/></Link>
           </div>
-          <div className="shrink-0 border-t bg-[#f6f7f3] px-6 pt-3 pb-[max(.75rem,env(safe-area-inset-bottom))] text-xs text-muted-foreground">Land. Property. Possibility. <span className="float-right">Malawi</span></div>
         </div>
       </div>, document.body)}
   </>;
