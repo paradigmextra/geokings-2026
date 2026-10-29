@@ -155,6 +155,8 @@
 .skip-link { position: fixed; top: 1rem; left: 1rem; z-index: 200; transform: translateY(-180%); padding: .75rem 1.25rem; background: white; color: hsl(var(--secondary)); border-radius: .75rem; }
 .skip-link:focus { transform: translateY(0); }
 .mobile-contact { padding-bottom: max(.75rem, env(safe-area-inset-bottom)); }
+.site-footer { background-color: #102e34; color: #fff; }
+.site-footer-summary { visibility: visible; }
 /* Matching repeated groups give the horizontal strip a seamless loop. */
 .testimonial-window { overflow-x: auto; scrollbar-width: none; overscroll-behavior-x: contain; }
 .testimonial-window::-webkit-scrollbar { display: none; }

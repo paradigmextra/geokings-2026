@@ -1,3 +1,4 @@
+import Image from "next/image";
 import PurposeCards from "@/components/PurposeCards";
 import ValueIcon from '@/components/ValueIcon';
 import Layout from "@/components/Layout";
@@ -40,28 +41,25 @@ const About = () => (
           <div className="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-primary via-accent to-primary" />
 
           <div className="grid md:grid-cols-5 gap-0">
-            {/* Image */}
-            <div className="md:col-span-2 relative bg-gradient-to-br from-primary/10 to-accent/10 p-8 md:p-10 flex items-center justify-center">
-              <div className="relative">
-                <div className="absolute -inset-3 rounded-2xl bg-gradient-to-br from-accent/40 to-primary/40 blur-xl opacity-60" />
-                <div className="relative w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 rounded-2xl overflow-hidden ring-4 ring-background shadow-2xl">
-                  <img
-                    src={founderImg}
-                    alt="Chifundo Witness, Founder of Geoking"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              </div>
+            {/* Full-width portrait: fills the profile column on desktop and phone. */}
+            <div className="relative aspect-[4/5] max-h-[440px] w-full overflow-hidden bg-white md:col-span-2 md:aspect-auto md:max-h-none md:min-h-[560px]">
+              <Image
+                src={founderImg}
+                alt="Chifundo Witness Mbewe, Founder of Geoking Consultancy"
+                fill
+                sizes="(min-width: 1024px) 400px, (min-width: 768px) 40vw, 100vw"
+                className="object-cover object-[50%_30%]"
+              />
             </div>
 
             {/* Content */}
             <div className="md:col-span-3 p-5 sm:p-8 md:p-10 flex flex-col justify-center">
               <h3 className="font-heading text-2xl md:text-3xl font-bold text-foreground">
-                Chifundo Witness
+                Chifundo Witness Mbewe
               </h3>
               <p className="text-accent font-semibold mt-1 mb-5">Founder</p>
               <p className="text-muted-foreground leading-relaxed mb-6">
-                Chifundo Witness is the founder of Geoking, with a strong focus on geospatial solutions,
+                Chifundo Witness Mbewe is the founder of Geoking, with a strong focus on geospatial solutions,
                 land management, and digital innovation. He is dedicated to using technology to solve
                 real-world challenges in land systems, agriculture, and urban development in Malawi.
               </p>

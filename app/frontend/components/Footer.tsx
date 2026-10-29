@@ -3,7 +3,7 @@ import { ArrowUpRight } from 'lucide-react';
 import { serviceData } from '../../content/services';
 
 export default function Footer() {
-  return <footer className="relative shrink-0 bg-[#102e34] pb-[calc(5rem+env(safe-area-inset-bottom))] text-white md:pb-0">
+  return <footer className="site-footer relative shrink-0 bg-[#102e34] pb-[calc(5rem+env(safe-area-inset-bottom))] text-white md:pb-0">
     <div className="hidden md:block">
     <div className="bg-[#f1f3ec] text-secondary">
       <div className="container grid gap-7 py-12 sm:py-16 lg:grid-cols-[1fr_auto] lg:items-end">
@@ -29,8 +29,11 @@ export default function Footer() {
 
     </div>
     </div>
-    <div className="container py-7 md:py-5">
-      <div className="flex items-center justify-between gap-4 md:hidden"><Link to="/" className="font-heading text-lg font-bold tracking-tight">GEOKING<span className="text-teal-300">.</span></Link><span className="text-xs text-white/70">Lilongwe, Malawi</span></div>
+    <div className="site-footer-summary container py-8 md:py-5">
+      <div className="md:hidden">
+        <div className="flex items-center justify-between gap-3"><Link to="/" aria-label="Geoking Consultancy home" className="flex items-center gap-3"><img src="/assets/logo.png" alt="" width={44} height={44} className="h-11 w-11 rounded-lg bg-white p-1"/><span className="font-heading text-lg font-bold tracking-tight">GEOKING<span className="text-teal-300">.</span></span></Link><span className="text-xs text-white/75">Lilongwe, Malawi</span></div>
+        <a href="mailto:Info@geoking.org" className="mt-4 inline-flex min-h-11 items-center gap-2 text-lg font-semibold text-white">Info@geoking.org <ArrowUpRight size={18} aria-hidden="true"/></a>
+      </div>
       <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <nav aria-label="Footer links" className="mt-2 flex flex-wrap gap-x-5 text-sm text-white/85 md:mt-0 md:order-2"><Link to="/about" className="inline-flex min-h-11 items-center hover:text-teal-200">About</Link><Link to="/contact" className="inline-flex min-h-11 items-center hover:text-teal-200">Contact</Link><Link to="/privacy-policy" className="inline-flex min-h-11 items-center hover:text-teal-200">Privacy</Link><Link to="/terms-of-service" className="inline-flex min-h-11 items-center hover:text-teal-200">Terms</Link></nav>
         <p className="border-t border-white/15 pt-4 text-xs text-white/65 md:order-1 md:border-0 md:pt-0">© {new Date().getFullYear()} Geoking Consultancy.</p>
