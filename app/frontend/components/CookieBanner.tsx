@@ -23,7 +23,7 @@ const CookieBanner = () => {
   if (!visible) return null;
 
   return (
-    <div className="fixed bottom-4 left-4 right-4 md:left-6 md:right-auto md:max-w-md z-[80] animate-fade-in">
+    <div className="fixed bottom-[calc(6rem+env(safe-area-inset-bottom))] md:bottom-4 left-4 right-4 md:left-6 md:right-auto md:max-w-md z-[80] animate-fade-in" role="region" aria-label="Cookie preferences">
       <div className="bg-card border border-border rounded-xl shadow-2xl p-5">
         <div className="flex items-start gap-3 mb-3">
           <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center shrink-0">

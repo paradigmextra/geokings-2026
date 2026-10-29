@@ -1,75 +1,40 @@
-# Geoking Consultancy
+# Geoking Consultancy — 2026
 
-The application now runs on **Next.js** with a database-backed admin portal at `/admin`, client accounts at `/client`, and PayChangu integration. See [SETUP.md](./SETUP.md) for current setup, admin credentials, payment configuration, and deployment instructions. The original Lovable notes below describe the pre-migration project.
+Mobile-first GIS, land surveying and property services for clients in Malawi. Built with Next.js, React, TypeScript, Tailwind CSS and libSQL, with administrator and client portals.
 
-## Project info
+## Run locally
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
-
-## How can I edit this code?
-
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
+Requires Node.js 20.9 or newer; Node 24 is recommended.
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+npm ci
+node scripts/setup-local.mjs
+npm run admin:create
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+Open [localhost:3000](http://localhost:3000). Local administrator access is at `/admin`, using `admin` / `admin`. These are local development credentials; choose unique credentials before public deployment. Configuration and local database files are excluded from Git.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+See [SETUP.md](./SETUP.md) for database, account, PayChangu and private document storage configuration. Payment and KYC integrations require their actual service credentials.
 
-**Use GitHub Codespaces**
+## Mobile and search
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+- Source Sans 3 body text and Manrope headings, served through `next/font`.
+- Shared vision and mission cards, phone navigation, readable forms and persistent mobile call/WhatsApp actions.
+- Server-rendered content, route metadata, canonical URLs, social previews, business structured data, sitemap and noindex account portals.
+- Service-specific enquiry links. The contact form prepares a WhatsApp draft for the client to send; it does not submit a server message.
 
-## What technologies are used for this project?
+Set `SITE_URL` to the public HTTPS origin when deploying. See [SEARCH-MARKETING.md](./SEARCH-MARKETING.md) for search launch steps and paid campaign preparation. No paid campaigns or advertising trackers are enabled automatically.
 
-This project is built with:
+## Verify
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+```sh
+npm run typecheck
+npm run lint
+npm test
+npm run build
+# With the local server running:
+node scripts/verify-public.mjs
+```
 
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+The public smoke check uses the default production canonical domain `https://geoking.org`. Update its expectations if deploying under another domain.

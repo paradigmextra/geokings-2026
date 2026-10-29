@@ -1,9 +1,10 @@
+import PurposeCards from "@/components/PurposeCards";
 import Layout from "@/components/Layout";
 import SEO from "@/components/SEO";
 import PageHero from "@/components/PageHero";
 const heroImg = "/assets/page-hero-about.jpg";
 const founderImg = "/assets/founder-chifundo.jpg";
-import { Eye, Target, Shield, Lightbulb, CheckCircle, Award, Linkedin, Mail, GraduationCap } from "lucide-react";
+import { Target, Shield, Lightbulb, CheckCircle, Award, Linkedin, Mail, GraduationCap } from "lucide-react";
 
 const values = [
   { icon: Lightbulb, title: "Innovation", desc: "Embracing cutting-edge geospatial technology." },
@@ -42,7 +43,7 @@ const About = () => (
             <div className="md:col-span-2 relative bg-gradient-to-br from-primary/10 to-accent/10 p-8 md:p-10 flex items-center justify-center">
               <div className="relative">
                 <div className="absolute -inset-3 rounded-2xl bg-gradient-to-br from-accent/40 to-primary/40 blur-xl opacity-60" />
-                <div className="relative w-56 h-56 md:w-64 md:h-64 rounded-2xl overflow-hidden ring-4 ring-background shadow-2xl">
+                <div className="relative w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 rounded-2xl overflow-hidden ring-4 ring-background shadow-2xl">
                   <img
                     src={founderImg}
                     alt="Chifundo Witness, Founder of Geoking"
@@ -53,7 +54,7 @@ const About = () => (
             </div>
 
             {/* Content */}
-            <div className="md:col-span-3 p-8 md:p-10 flex flex-col justify-center">
+            <div className="md:col-span-3 p-5 sm:p-8 md:p-10 flex flex-col justify-center">
               <h3 className="font-heading text-2xl md:text-3xl font-bold text-foreground">
                 Chifundo Witness
               </h3>
@@ -95,26 +96,7 @@ const About = () => (
       </div>
     </section>
 
-    <section className="bg-muted py-20">
-      <div className="container">
-        <div className="grid md:grid-cols-2 gap-10 max-w-4xl mx-auto">
-          <div className="p-8 rounded-xl bg-card border border-border">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 bg-primary text-primary-foreground rounded-lg flex items-center justify-center"><Eye className="w-5 h-5" /></div>
-              <h3 className="font-heading text-xl font-bold text-foreground">Our Vision</h3>
-            </div>
-            <p className="text-muted-foreground">Becoming the leading geospatial firm across generations and nations.</p>
-          </div>
-          <div className="p-8 rounded-xl bg-card border border-border">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 bg-accent text-accent-foreground rounded-lg flex items-center justify-center"><Target className="w-5 h-5" /></div>
-              <h3 className="font-heading text-xl font-bold text-foreground">Our Mission</h3>
-            </div>
-            <p className="text-muted-foreground">Delivering accurate, reliable geospatial services including mapping, satellite imagery, spatial analysis and support for urban planning, agriculture, disaster management, and navigation.</p>
-          </div>
-        </div>
-      </div>
-    </section>
+    <PurposeCards />
 
     <section className="py-20">
       <div className="container max-w-4xl">

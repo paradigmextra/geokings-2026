@@ -1,5 +1,6 @@
+import { serviceData } from "../../content/services";
 import { Link } from "react-router-dom";
-import { Facebook, Twitter, Linkedin, Instagram, MapPin, Phone, Mail, Clock } from "lucide-react";
+import { Facebook, MapPin, Phone, Mail, Clock } from "lucide-react";
 const logo = "/assets/logo.png";
 
 const Footer = () => (
@@ -22,11 +23,8 @@ const Footer = () => (
           <div className="flex gap-3">
             {[
               { Icon: Facebook, href: "https://web.facebook.com/geokingconsultancy/", label: "Facebook" },
-              { Icon: Twitter, href: "#", label: "Twitter" },
-              { Icon: Linkedin, href: "#", label: "LinkedIn" },
-              { Icon: Instagram, href: "#", label: "Instagram" },
             ].map(({ Icon, href, label }) => (
-              <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label} className="w-9 h-9 rounded-full border border-secondary-foreground/30 flex items-center justify-center hover:bg-accent hover:border-accent transition-colors">
+              <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label} className="w-11 h-11 rounded-full border border-secondary-foreground/30 flex items-center justify-center hover:bg-accent hover:border-accent transition-colors">
                 <Icon className="w-4 h-4" />
               </a>
             ))}
@@ -37,8 +35,8 @@ const Footer = () => (
         <div>
           <h4 className="font-heading font-semibold text-lg mb-4">Our Services</h4>
           <ul className="space-y-2 text-sm opacity-80">
-            {["Real Property Management","Property Valuation","Land Surveying Equipment Supply","Architectural Services","Quantity Surveying","Land Surveying","Land Laws Training"].map(s => (
-              <li key={s}><Link to="/services" className="hover:text-accent transition-colors">{s}</Link></li>
+            {Object.entries(serviceData).map(([slug, service]) => (
+              <li key={slug}><Link to={`/services/${slug}`} className="hover:text-accent transition-colors">{service.title}</Link></li>
             ))}
           </ul>
         </div>

@@ -1,13 +1,16 @@
 import TopBar from "./TopBar";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import MobileContact from './MobileContact';
 
 const Layout = ({ children }: { children: React.ReactNode }) => (
-  <div className="min-h-screen flex flex-col">
+  <div className="public-layout min-h-screen flex flex-col">
+    <a href="#main-content" className="skip-link">Skip to content</a>
     <TopBar />
     <Navbar />
-    <main className="flex-1">{children}</main>
+    <main id="main-content" tabIndex={-1} className="flex-1 min-w-0">{children}</main>
     <Footer />
+    <MobileContact />
   </div>
 );
 

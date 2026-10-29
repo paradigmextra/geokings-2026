@@ -2,10 +2,12 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
-import SplashScreen from "./components/SplashScreen";
+import { Router, Routes, Route, useLocation, createPath, type To } from "react-router-dom";
+import { usePathname, useRouter } from 'next/navigation';
+import dynamic from "next/dynamic";
+import { useMemo } from 'react';
+import { MotionConfig } from 'framer-motion';
 import ScrollToTop from "./components/ScrollToTop";
-import PageLoader from "./components/PageLoader";
 import Index from "./views/Index";
 import About from "./views/About";
 import Services from "./views/Services";
@@ -21,20 +23,30 @@ import TermsOfService from "./views/TermsOfService";
 import CookiePolicy from "./views/CookiePolicy";
 import CookieBanner from "./components/CookieBanner";
 import NotFound from "./views/NotFound";
-import Portal from './views/Portal';
+const Portal = dynamic(() => import('./views/Portal'), { loading: () => <p className="container py-10">Loading your portal...</p> });
 
 const queryClient = new QueryClient();
 function PublicExtras() {
   const { pathname } = useLocation();
-  return ['/admin','/client'].includes(pathname) ? null : <><SplashScreen /><PageLoader /><CookieBanner /></>;
+  return ['/admin','/client'].includes(pathname) ? null : <CookieBanner />;
 }
 
-const App = () => (
+const App = () => {
+  const pathname = usePathname();
+  const router = useRouter();
+  const navigator = useMemo(() => ({
+    createHref: (to: To) => typeof to === 'string' ? to : createPath(to),
+    go: (delta: number) => window.history.go(delta),
+    push: (to: To) => router.push(typeof to === 'string' ? to : createPath(to)),
+    replace: (to: To) => router.replace(typeof to === 'string' ? to : createPath(to)),
+  }), [router]);
+  return (
+  <MotionConfig reducedMotion="user">
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
+      <Router location={pathname} navigator={navigator}>
         <ScrollToTop />
         <PublicExtras />
         <Routes>
@@ -55,9 +67,10 @@ const App = () => (
           <Route path="/cookie-policy" element={<CookiePolicy />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
-      </BrowserRouter>
+      </Router>
     </TooltipProvider>
   </QueryClientProvider>
-);
+  </MotionConfig>
+); };
 
 export default App;

@@ -1,3 +1,5 @@
+import Image from "next/image";
+import PurposeCards from "@/components/PurposeCards";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Layout from "@/components/Layout";
@@ -14,7 +16,7 @@ import { motion, type Variants } from "framer-motion";
 import {
   Building2, FileCheck, Compass, PenTool, Calculator, Map,
   BookOpen, FileText, GraduationCap, MapPin, Users, CheckCircle,
-  ArrowRight, Play, Target, Eye, Star, Quote, Home as HomeIcon
+  ArrowRight, Play, Star, Quote, Home as HomeIcon
 } from "lucide-react";
 
 const fadeUp: Variants = {
@@ -35,12 +37,12 @@ const stats = [
 ];
 
 const services = [
-  { icon: Building2, title: "Real Property Management", desc: "Comprehensive property management solutions for landlords and property owners across Malawi.", color: "bg-primary" },
-  { icon: FileCheck, title: "Property Valuation", desc: "Accurate and certified property valuations for transactions, insurance, and legal purposes.", color: "bg-primary" },
-  { icon: Compass, title: "Land Surveying Equipment Supply", desc: "Quality surveying instruments and equipment from leading global manufacturers.", color: "bg-brand-orange" },
-  { icon: PenTool, title: "Architectural Services", desc: "Creative architectural design and planning for residential and commercial projects.", color: "bg-brand-orange" },
-  { icon: Calculator, title: "Quantity Surveying", desc: "Expert cost management and quantity surveying for construction projects.", color: "bg-brand-orange" },
-  { icon: Map, title: "Land Surveying", desc: "Professional cadastral and topographic surveying services across Malawi.", color: "bg-accent" },
+  { icon: Building2, title: "Real Property Management", path: "/services/property-management", desc: "Comprehensive property management solutions for landlords and property owners across Malawi.", color: "bg-primary" },
+  { icon: FileCheck, title: "Property Valuation", path: "/services/valuation", desc: "Accurate and certified property valuations for transactions, insurance, and legal purposes.", color: "bg-primary" },
+  { icon: Compass, title: "Land Surveying Equipment Supply", path: "/services/equipment", desc: "Quality surveying instruments and equipment from leading global manufacturers.", color: "bg-brand-orange" },
+  { icon: PenTool, title: "Architectural Services", path: "/services/architecture", desc: "Creative architectural design and planning for residential and commercial projects.", color: "bg-brand-orange" },
+  { icon: Calculator, title: "Quantity Surveying", path: "/services/quantity-surveying", desc: "Expert cost management and quantity surveying for construction projects.", color: "bg-brand-orange" },
+  { icon: Map, title: "Land Surveying", path: "/services/land-surveying", desc: "Professional cadastral and topographic surveying services across Malawi.", color: "bg-accent" },
 ];
 
 const testimonials = [
@@ -65,10 +67,7 @@ const Index = () => {
     {/* Hero with background image masked in brand colours */}
     <section className="relative overflow-hidden">
       {/* Background image */}
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(${heroBg})` }}
-      />
+      <Image src={heroBg} alt="" fill sizes="100vw" priority className="object-cover" />
       {/* Brand colour mask - clipping mask effect */}
       <div className="absolute inset-0 bg-gradient-to-br from-[hsl(195,70%,18%,0.88)] to-[hsl(174,65%,30%,0.82)]" />
 
@@ -76,7 +75,7 @@ const Index = () => {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="text-primary-foreground">
             <motion.span
-              initial={{ opacity: 0, x: -20 }}
+              initial={false}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}
               className="inline-flex max-w-full items-center gap-2 bg-primary-foreground/10 backdrop-blur px-3 sm:px-4 py-1.5 rounded-full text-xs sm:text-sm mb-5 sm:mb-6"
@@ -85,17 +84,17 @@ const Index = () => {
               Malawi's Premier Geospatial Consultancy
             </motion.span>
             <motion.h1
-              initial={{ opacity: 0, y: 30 }}
+              initial={false}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
               className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-5 sm:mb-6"
             >
               Transforming<br />
-              <span className="text-accent">Land & Property</span><br />
+              <span className="text-teal-200">Land & Property</span><br />
               Management
             </motion.h1>
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
+              initial={false}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
               className="text-base sm:text-lg opacity-90 mb-7 sm:mb-8 max-w-lg"
@@ -103,7 +102,7 @@ const Index = () => {
               Expert GIS consultancy, land surveying, property management, and real estate solutions. Empowering Malawi with cutting-edge geospatial technology and professional services.
             </motion.p>
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={false}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.5 }}
               className="flex flex-col sm:flex-row gap-3 sm:gap-4"
@@ -117,7 +116,7 @@ const Index = () => {
             </motion.div>
           </div>
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
+            initial={false}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.7, delay: 0.3 }}
             className="hidden lg:flex justify-center"
@@ -141,7 +140,7 @@ const Index = () => {
             <motion.div
               key={s.label}
               custom={i}
-              initial="hidden"
+              initial={false}
               whileInView="visible"
               viewport={{ once: true }}
               variants={fadeUp}
@@ -166,7 +165,7 @@ const Index = () => {
       <div className="container">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
+            initial={false}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
@@ -180,7 +179,7 @@ const Index = () => {
             </Link>
           </motion.div>
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
+            initial={false}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
@@ -192,7 +191,7 @@ const Index = () => {
               { value: "500+", label: "Parcels Surveyed" },
               { value: "100%", label: "Client Satisfaction" },
             ].map((item, i) => (
-              <div key={item.label} className="bg-card rounded-xl border border-border p-6 text-center hover:shadow-lg transition-shadow">
+              <div key={item.label} className="bg-card rounded-xl border border-border p-4 sm:p-6 text-center hover:shadow-lg transition-shadow">
                 <div className="text-3xl font-bold text-accent mb-1">{item.value}</div>
                 <div className="text-sm text-muted-foreground">{item.label}</div>
               </div>
@@ -206,7 +205,7 @@ const Index = () => {
     <section className="bg-muted py-20">
       <div className="container">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={false}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
@@ -221,7 +220,7 @@ const Index = () => {
             <motion.div
               key={s.title}
               custom={i}
-              initial="hidden"
+              initial={false}
               whileInView="visible"
               viewport={{ once: true }}
               variants={fadeUp}
@@ -232,7 +231,7 @@ const Index = () => {
               </div>
               <h3 className="font-heading font-semibold text-lg mb-2 text-foreground">{s.title}</h3>
               <p className="text-sm text-muted-foreground mb-3">{s.desc}</p>
-              <Link to="/services" className="text-accent text-sm font-semibold inline-flex items-center gap-1 hover:gap-2 transition-all">
+              <Link to={s.path} aria-label={`Learn more about ${s.title}`} className="text-primary text-sm font-semibold inline-flex items-center gap-1 hover:gap-2 transition-all">
                 Learn More <ArrowRight className="w-4 h-4" />
               </Link>
             </motion.div>
@@ -246,45 +245,13 @@ const Index = () => {
       </div>
     </section>
 
-    {/* Vision & Mission */}
-    <section className="py-20">
-      <div className="container">
-        <div className="grid md:grid-cols-2 gap-10">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="p-8 rounded-xl border border-border bg-card"
-          >
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 bg-primary text-primary-foreground rounded-lg flex items-center justify-center"><Eye className="w-5 h-5" /></div>
-              <h3 className="font-heading text-xl font-bold text-foreground">Our Vision</h3>
-            </div>
-            <p className="text-muted-foreground">Becoming the leading geospatial firm across generations and nations, setting the standard for innovation, accuracy, and excellence in land and property solutions.</p>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.15 }}
-            className="p-8 rounded-xl border border-border bg-card"
-          >
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 bg-accent text-accent-foreground rounded-lg flex items-center justify-center"><Target className="w-5 h-5" /></div>
-              <h3 className="font-heading text-xl font-bold text-foreground">Our Mission</h3>
-            </div>
-            <p className="text-muted-foreground">Delivering accurate, reliable geospatial services including mapping, satellite imagery, spatial analysis and support for industries like urban planning, agriculture, disaster management, and navigation.</p>
-          </motion.div>
-        </div>
-      </div>
-    </section>
+    <PurposeCards />
 
     {/* Featured Properties with images */}
     <section className="bg-muted py-20">
       <div className="container">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={false}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
@@ -298,7 +265,7 @@ const Index = () => {
             <motion.div
               key={p.id}
               custom={i}
-              initial="hidden"
+              initial={false}
               whileInView="visible"
               viewport={{ once: true }}
               variants={fadeUp}
@@ -327,7 +294,7 @@ const Index = () => {
     <section className="py-20">
       <div className="container">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={false}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
@@ -342,7 +309,7 @@ const Index = () => {
             <motion.div
               key={t.name}
               custom={i}
-              initial="hidden"
+              initial={false}
               whileInView="visible"
               viewport={{ once: true }}
               variants={fadeUp}
@@ -379,7 +346,7 @@ const Index = () => {
       <div className="absolute inset-0 bg-gradient-to-br from-[hsl(195,70%,18%,0.92)] to-[hsl(174,65%,30%,0.88)]" />
       <div className="container relative z-10 text-center text-primary-foreground">
         <motion.h2
-          initial={{ opacity: 0, y: 20 }}
+          initial={false}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
@@ -388,7 +355,7 @@ const Index = () => {
           Ready to Get Started?
         </motion.h2>
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
+          initial={false}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.1 }}
@@ -397,7 +364,7 @@ const Index = () => {
           Let's discuss your next GIS, surveying, or property project. Our team is ready to deliver excellence.
         </motion.p>
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={false}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.2 }}
@@ -417,7 +384,7 @@ const Index = () => {
     <section className="bg-muted py-20">
       <div className="container">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={false}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
@@ -436,7 +403,7 @@ const Index = () => {
             <motion.div
               key={p.title}
               custom={i}
-              initial="hidden"
+              initial={false}
               whileInView="visible"
               viewport={{ once: true }}
               variants={fadeUp}
