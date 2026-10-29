@@ -169,7 +169,6 @@
   .testimonial-copy { display: none; }
 }
 @media (max-width: 767px) {
-  .public-layout { padding-bottom: calc(5rem + env(safe-area-inset-bottom)); }
   input:not([type=checkbox]):not([type=radio]), select, textarea { font-size: 16px !important; }
   .public-layout a, .public-layout button { touch-action: manipulation; }
   .public-layout main a:not([aria-hidden]), .public-layout button { min-height: 44px; }

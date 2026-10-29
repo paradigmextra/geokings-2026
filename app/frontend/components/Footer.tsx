@@ -3,12 +3,7 @@ import { ArrowUpRight } from 'lucide-react';
 import { serviceData } from '../../content/services';
 
 export default function Footer() {
-  return <footer className="bg-[#102e34] text-white">
-    <div className="container py-7 md:hidden">
-      <div className="flex items-center justify-between gap-4"><Link to="/" className="font-heading text-lg font-bold tracking-tight">GEOKING<span className="text-teal-300">.</span></Link><span className="text-xs text-white/60">Lilongwe, Malawi</span></div>
-      <nav aria-label="Mobile footer" className="mt-3 flex flex-wrap gap-x-5 text-sm text-white/80"><Link to="/about" className="inline-flex min-h-11 items-center">About</Link><Link to="/contact" className="inline-flex min-h-11 items-center">Contact</Link><Link to="/privacy-policy" className="inline-flex min-h-11 items-center">Privacy</Link><Link to="/terms-of-service" className="inline-flex min-h-11 items-center">Terms</Link></nav>
-      <p className="mt-3 border-t border-white/10 pt-4 text-[11px] text-white/50">© {new Date().getFullYear()} Geoking Consultancy.</p>
-    </div>
+  return <footer className="relative shrink-0 bg-[#102e34] pb-[calc(5rem+env(safe-area-inset-bottom))] text-white md:pb-0">
     <div className="hidden md:block">
     <div className="bg-[#f1f3ec] text-secondary">
       <div className="container grid gap-7 py-12 sm:py-16 lg:grid-cols-[1fr_auto] lg:items-end">
@@ -31,8 +26,15 @@ export default function Footer() {
         <div><p className="mb-2 text-xs text-white/60">Have a site, property or idea in mind?</p><a href="mailto:Info@geoking.org" className="inline-flex min-h-11 items-center gap-3 font-heading text-2xl font-semibold sm:text-3xl">Info@geoking.org <ArrowUpRight size={22} aria-hidden="true"/></a></div>
         <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm"><a href="tel:+265983333061" className="flex min-h-11 items-center text-white/80 hover:text-teal-200">+265 983 333 061</a><a href="tel:+265881313475" className="flex min-h-11 items-center text-white/80 hover:text-teal-200">+265 881 313 475</a><a href="https://web.facebook.com/geokingconsultancy/" target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center gap-2 text-teal-200">Facebook <ArrowUpRight size={15} aria-hidden="true"/></a></div>
       </div>
-      <div className="flex flex-col justify-between gap-4 py-6 text-xs text-white/60 md:flex-row md:items-center"><p>© {new Date().getFullYear()} Geoking Consultancy.</p><nav aria-label="Legal" className="flex flex-wrap gap-x-5 gap-y-2"><Link to="/privacy-policy" className="inline-flex min-h-10 items-center hover:text-white">Privacy</Link><Link to="/terms-of-service" className="inline-flex min-h-10 items-center hover:text-white">Terms</Link><Link to="/cookie-policy" className="inline-flex min-h-10 items-center hover:text-white">Cookies</Link></nav><p className="text-white/40">Rooted in Malawi. Looking ahead.</p></div>
+
     </div>
+    </div>
+    <div className="container py-7 md:py-5">
+      <div className="flex items-center justify-between gap-4 md:hidden"><Link to="/" className="font-heading text-lg font-bold tracking-tight">GEOKING<span className="text-teal-300">.</span></Link><span className="text-xs text-white/70">Lilongwe, Malawi</span></div>
+      <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+        <nav aria-label="Footer links" className="mt-2 flex flex-wrap gap-x-5 text-sm text-white/85 md:mt-0 md:order-2"><Link to="/about" className="inline-flex min-h-11 items-center hover:text-teal-200">About</Link><Link to="/contact" className="inline-flex min-h-11 items-center hover:text-teal-200">Contact</Link><Link to="/privacy-policy" className="inline-flex min-h-11 items-center hover:text-teal-200">Privacy</Link><Link to="/terms-of-service" className="inline-flex min-h-11 items-center hover:text-teal-200">Terms</Link></nav>
+        <p className="border-t border-white/15 pt-4 text-xs text-white/65 md:order-1 md:border-0 md:pt-0">© {new Date().getFullYear()} Geoking Consultancy.</p>
+      </div>
     </div>
   </footer>;
 }
