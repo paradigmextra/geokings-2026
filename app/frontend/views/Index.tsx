@@ -1,3 +1,4 @@
+import CompanyNumbers from "@/components/CompanyNumbers";
 import PropertyIllustration from "@/components/PropertyIllustration";
 import ServiceIcon from "@/components/ServiceIcon";
 import Testimonials from "@/components/Testimonials";
@@ -177,25 +178,7 @@ const Index = () => {
               Learn More About Us <ArrowRight className="w-4 h-4" />
             </Link>
           </motion.div>
-          <motion.div
-            initial={false}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="grid grid-cols-2 gap-4"
-          >
-            {[
-              { value: "3+", label: "Years Experience" },
-              { value: "10+", label: "Services Offered" },
-              { value: "500+", label: "Parcels Surveyed" },
-              { value: "100%", label: "Client Satisfaction" },
-            ].map((item, i) => (
-              <div key={item.label} className="bg-card rounded-xl border border-border p-4 sm:p-6 text-center hover:shadow-lg transition-shadow">
-                <div className="text-3xl font-bold text-accent mb-1">{item.value}</div>
-                <div className="text-sm text-muted-foreground">{item.label}</div>
-              </div>
-            ))}
-          </motion.div>
+          <CompanyNumbers />
         </div>
       </div>
     </section>
