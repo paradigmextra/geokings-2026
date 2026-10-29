@@ -1,3 +1,4 @@
+import ServiceIcon from "@/components/ServiceIcon";
 import { Link } from "react-router-dom";
 import Layout from "@/components/Layout";
 import SEO from "@/components/SEO";
@@ -38,9 +39,7 @@ const Services = () => (
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {allServices.map((s) => (
             <div key={s.title} className="service-card">
-              <div className={`w-12 h-12 ${s.color} text-primary-foreground rounded-lg flex items-center justify-center mb-4`}>
-                <s.icon className="w-6 h-6" />
-              </div>
+              <ServiceIcon path={s.path} />
               <h3 className="font-heading font-semibold text-lg mb-2 text-foreground">{s.title}</h3>
               <p className="text-sm text-muted-foreground mb-4">{s.desc}</p>
               <Link to={s.path} className="text-accent text-sm font-semibold inline-flex items-center gap-1 hover:gap-2 transition-all">

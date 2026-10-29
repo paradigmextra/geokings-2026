@@ -1,4 +1,5 @@
 import PurposeCards from "@/components/PurposeCards";
+import ValueIcon from '@/components/ValueIcon';
 import Layout from "@/components/Layout";
 import SEO from "@/components/SEO";
 import PageHero from "@/components/PageHero";
@@ -104,9 +105,7 @@ const About = () => (
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {values.map((v) => (
             <div key={v.title} className="text-center p-6 rounded-xl border border-border bg-card">
-              <div className="w-12 h-12 bg-primary/10 text-primary rounded-lg flex items-center justify-center mx-auto mb-3">
-                <v.icon className="w-6 h-6" />
-              </div>
+              <ValueIcon value={v.title} />
               <h4 className="font-heading font-semibold text-foreground mb-1">{v.title}</h4>
               <p className="text-sm text-muted-foreground">{v.desc}</p>
             </div>

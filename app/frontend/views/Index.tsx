@@ -1,3 +1,5 @@
+import ServiceIcon from "@/components/ServiceIcon";
+import Testimonials from "@/components/Testimonials";
 import Image from "next/image";
 import PurposeCards from "@/components/PurposeCards";
 import { Link } from "react-router-dom";
@@ -16,7 +18,7 @@ import { motion, type Variants } from "framer-motion";
 import {
   Building2, FileCheck, Compass, PenTool, Calculator, Map,
   BookOpen, FileText, GraduationCap, MapPin, Users, CheckCircle,
-  ArrowRight, Play, Star, Quote, Home as HomeIcon
+  ArrowRight, Play, Home as HomeIcon
 } from "lucide-react";
 
 const fadeUp: Variants = {
@@ -226,9 +228,7 @@ const Index = () => {
               variants={fadeUp}
               className="service-card"
             >
-              <div className={`w-12 h-12 ${s.color} text-primary-foreground rounded-lg flex items-center justify-center mb-4`}>
-                <s.icon className="w-6 h-6" />
-              </div>
+              <ServiceIcon path={s.path} />
               <h3 className="font-heading font-semibold text-lg mb-2 text-foreground">{s.title}</h3>
               <p className="text-sm text-muted-foreground mb-3">{s.desc}</p>
               <Link to={s.path} aria-label={`Learn more about ${s.title}`} className="text-primary text-sm font-semibold inline-flex items-center gap-1 hover:gap-2 transition-all">
@@ -290,52 +290,7 @@ const Index = () => {
       </div>
     </section>
 
-    {/* Testimonials */}
-    <section className="py-20">
-      <div className="container">
-        <motion.div
-          initial={false}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-12"
-        >
-          <span className="section-label flex items-center justify-center gap-2 mb-2"><Star className="w-4 h-4" /> Testimonials</span>
-          <h2 className="font-heading text-3xl md:text-4xl font-bold text-foreground">What Our Clients Say</h2>
-          <p className="text-muted-foreground mt-3 max-w-2xl mx-auto">Trusted by property developers, agricultural officers, urban planners, and real estate investors across Malawi.</p>
-        </motion.div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {testimonials.map((t, i) => (
-            <motion.div
-              key={t.name}
-              custom={i}
-              initial={false}
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeUp}
-              className="bg-card rounded-xl border border-border p-6 hover:shadow-lg transition-shadow relative"
-            >
-              <Quote className="w-8 h-8 text-accent/20 absolute top-4 right-4" />
-              <div className="flex gap-0.5 mb-4">
-                {Array.from({ length: t.rating }).map((_, j) => (
-                  <Star key={j} className="w-4 h-4 fill-brand-orange text-brand-orange" />
-                ))}
-              </div>
-              <p className="text-sm text-muted-foreground mb-4 italic">"{t.text}"</p>
-              <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-full overflow-hidden ring-2 ring-accent/30 shrink-0">
-                  <img src={t.image} alt={t.name} loading="lazy" width={64} height={64} className="w-full h-full object-cover" />
-                </div>
-                <div>
-                  <div className="font-semibold text-foreground text-sm">{t.name}</div>
-                  <div className="text-xs text-muted-foreground">{t.role}</div>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
+    <Testimonials reviews={testimonials} />
 
     {/* CTA Banner */}
     <section className="relative overflow-hidden py-20">
