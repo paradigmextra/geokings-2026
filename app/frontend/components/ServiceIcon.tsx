@@ -10,11 +10,10 @@ const drawings: Record<string, React.ReactNode> = {
 };
 export default function ServiceIcon({ path }: { path: string }) {
   const slug = path.split('/').pop() || '';
-  const warm = ['equipment', 'architecture', 'quantity-surveying'].includes(slug);
   const Fallback = slug === 'land-laws' ? BookOpen : slug === 'registration' ? FileCheck2 : slug === 'gis-trainings' ? GraduationCap : MapPin;
-  return <div aria-hidden="true" className={`service-icon relative mb-6 grid h-20 w-20 shrink-0 place-items-center rounded-[1.4rem] border ${warm ? 'border-amber-200 bg-amber-50 text-amber-800 [--icon-fill:#fef3c7]' : 'border-teal-200 bg-teal-50 text-primary [--icon-fill:#ccfbf1]'}`}>
+  return <div aria-hidden="true" className="service-icon relative mb-6 grid h-20 w-20 shrink-0 place-items-center rounded-[1.4rem] border border-teal-200 bg-teal-50 text-primary [--icon-fill:#ccfbf1]">
     <span className="absolute inset-1 rounded-[1.1rem] border border-white/80" />
     {drawings[slug] ? <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="relative">{drawings[slug]}</svg> : <Fallback size={36} strokeWidth={1.6} className="relative" />}
-    <span className={`absolute -bottom-1 -right-1 h-4 w-4 rounded-full border-[3px] border-white ${warm ? 'bg-amber-500' : 'bg-primary'}`} />
+    <span className="absolute -bottom-1 -right-1 h-4 w-4 rounded-full border-[3px] border-white bg-primary" />
   </div>;
 }
