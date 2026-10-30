@@ -1,3 +1,4 @@
+import HeroBrandSeal from "@/components/HeroBrandSeal";
 import CompanyNumbers from "@/components/CompanyNumbers";
 import PropertyIllustration from "@/components/PropertyIllustration";
 import ServiceIcon from "@/components/ServiceIcon";
@@ -10,7 +11,6 @@ import Layout from "@/components/Layout";
 import SEO from "@/components/SEO";
 import { api } from "@/lib/api";
 import type { Property } from "@/lib/portal-types";
-const logo = "/assets/logo.png";
 const heroBg = "/assets/hero-bg.jpg";
 import { motion, type Variants } from "framer-motion";
 import {
@@ -74,15 +74,18 @@ const Index = () => {
       <div className="container relative z-10 py-14 sm:py-20 lg:py-28">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="text-primary-foreground">
+            <div className="mb-6 flex items-center gap-4 sm:gap-5 lg:mb-6 lg:block">
+              <div className="lg:hidden"><HeroBrandSeal compact/></div>
             <motion.span
               initial={false}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}
-              className="inline-flex max-w-full items-center gap-2 bg-primary-foreground/10 backdrop-blur px-3 sm:px-4 py-1.5 rounded-full text-xs sm:text-sm mb-5 sm:mb-6"
+              className="inline-flex max-w-full items-center gap-2 bg-primary-foreground/10 backdrop-blur px-3 sm:px-4 py-1.5 rounded-full text-xs leading-relaxed sm:text-sm"
             >
               <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
               Malawi's Premier Geospatial Consultancy
             </motion.span>
+            </div>
             <motion.h1
               initial={false}
               animate={{ opacity: 1, y: 0 }}
@@ -121,14 +124,7 @@ const Index = () => {
             transition={{ duration: 0.7, delay: 0.3 }}
             className="hidden lg:flex justify-center"
           >
-            <div className="relative">
-              <div className="w-80 h-80 rounded-full bg-white shadow-2xl flex items-center justify-center">
-                <img src={logo} alt="Geoking Consultancy" className="w-52 h-52 object-contain" />
-              </div>
-              <div className="absolute -top-2 -right-2 bg-primary-foreground/10 backdrop-blur border border-primary-foreground/20 text-primary-foreground px-4 py-1 rounded-full text-sm font-semibold">
-                Est. 2022
-              </div>
-            </div>
+            <HeroBrandSeal/>
           </motion.div>
         </div>
       </div>

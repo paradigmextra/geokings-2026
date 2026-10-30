@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "node scripts/build-cloudflare.mjs",
     "build:dev": "next build",
     "lint": "eslint .",
     "preview": "next start",
@@ -20,7 +20,8 @@
     "deploy": "opennextjs-cloudflare deploy",
     "preview:cloudflare": "opennextjs-cloudflare preview",
     "db:migrate:supabase": "node --env-file=.env.local scripts/migrate-to-supabase.mjs",
-    "verify:supabase": "node --env-file=.env.local scripts/verify-supabase.mjs"
+    "verify:supabase": "node --env-file=.env.local scripts/verify-supabase.mjs",
+    "build:next": "next build"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1136.0",

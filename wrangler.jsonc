@@ -4,11 +4,26 @@
   "account_id": "c9f939dd6e29bed9d2a3be69faf181e8",
   "main": ".open-next/worker.js",
   "compatibility_date": "2026-10-30",
-  "compatibility_flags": ["nodejs_compat"],
-  "assets": { "directory": ".open-next/assets", "binding": "ASSETS" },
-  "services": [{ "binding": "WORKER_SELF_REFERENCE", "service": "geokings-2026" }],
-  "build": { "command": "npm run build:cloudflare -- --skipNextBuild" },
-  "alias": { "@libsql/client": "@libsql/client/web" },
-  "vars": { "GEOKING_RUNTIME": "cloudflare" },
-  "observability": { "enabled": true }
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "services": [
+    {
+      "binding": "WORKER_SELF_REFERENCE",
+      "service": "geokings-2026"
+    }
+  ],
+  "alias": {
+    "@libsql/client": "@libsql/client/web"
+  },
+  "vars": {
+    "GEOKING_RUNTIME": "cloudflare"
+  },
+  "observability": {
+    "enabled": true
+  }
 }

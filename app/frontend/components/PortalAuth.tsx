@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { useState, type FormEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, Eye, EyeOff, ShieldCheck, Building2, Store } from 'lucide-react';
@@ -8,20 +9,13 @@ type Props = { admin: boolean; register: boolean; busy: boolean; error: string; 
 export default function PortalAuth({ admin, register, busy, error, onModeChange, onSubmit }: Props) {
   const [visible, setVisible] = useState(false);
   return <main className="min-h-[100dvh] bg-[#fafbf8] lg:grid lg:grid-cols-[.9fr_1.1fr]">
-    <aside className="relative hidden flex-col overflow-hidden bg-secondary p-12 text-white lg:flex xl:p-16">
-      <Link to="/" className="flex items-center gap-3"><img src="/assets/logo.png" alt="" width={48} height={48} className="h-12 w-12 rounded-xl bg-white p-1"/><span className="font-heading text-xl font-bold tracking-tight">GEOKING<span className="text-teal-200">.</span></span></Link>
-      <div className="my-auto py-12"><p className="mb-5 text-xs font-semibold uppercase tracking-[.2em] text-teal-200">{admin ? 'Geoking administration' : 'Property in Malawi. People you can trust.'}</p><h2 className="font-heading text-4xl font-semibold leading-tight xl:text-5xl">{admin ? <>Every listing.<br/>Every next step.</> : <>Find your place.<br/>Make your move.</>}</h2><p className="mt-6 max-w-md text-base leading-relaxed text-white/75">{admin ? 'Keep your team close to the details that matter, from new clients to seller verification and property sales.' : 'A home, an investment or land for your next project. Start your property journey with Geoking Consultancy.'}</p>
-        <div className="mt-10 max-w-md divide-y divide-white/15 border-y border-white/15">{(admin ? [
-          ['A clear view of your business', 'Track buyer and seller registrations, listed properties and completed sales.'],
-          ['Review with confidence', 'Check seller documents and property details before approving a listing.'],
-          ['Stay connected', 'Read client enquiries and keep replies together in one workspace.'],
-        ] : [
-          ['Buying a property?', 'Explore homes, land and commercial spaces across Malawi. Save your shortlist and return when you are ready.'],
-          ['Selling a property?', 'Create a seller account, verify your details and submit your property with photos for our team to review.'],
-          ['Support along the way', 'Speak to Geoking about surveying, valuation and the details behind your next move.'],
-        ]).map(([heading, detail]) => <div key={heading} className="py-5"><h3 className="font-heading text-base font-semibold text-white">{heading}</h3><p className="mt-2 text-sm leading-relaxed text-white/65">{detail}</p></div>)}</div>
+    <aside className="relative hidden h-[100dvh] overflow-hidden bg-secondary text-white lg:sticky lg:top-0 lg:flex lg:flex-col">
+      <Image src="/assets/page-hero-properties.jpg" alt="" fill priority sizes="45vw" className="object-cover object-center"/>
+      <div className="absolute inset-0 bg-gradient-to-b from-secondary/45 via-secondary/5 to-secondary/95"/>
+      <div className="relative z-10 flex h-full flex-col justify-between p-10 xl:p-14">
+        <Link to="/" aria-label="Geoking home" className="flex w-fit items-center gap-3"><img src="/assets/logo.png" alt="" width={48} height={48} className="h-12 w-12 rounded-full bg-white p-1.5"/><span className="font-heading text-lg font-semibold tracking-wide">GEOKING<span className="mt-1 block text-[9px] font-normal uppercase tracking-[.28em] text-white/75">Consultancy</span></span></Link>
+        <div className="max-w-md pb-2"><span aria-hidden="true" className="mb-6 block h-1 w-12 rounded-full bg-teal-200"/><h2 className="font-heading text-4xl font-semibold leading-[1.15] tracking-tight xl:text-5xl">{admin ? 'Log in to your admin portal.' : register ? 'Create your Geoking account.' : 'Log in to your client portal.'}</h2><p className="mt-7 border-t border-white/20 pt-5 text-xs tracking-wide text-white/65">Malawi · Est. 2022</p></div>
       </div>
-      <p className="flex items-center gap-2 text-xs text-white/60"><ShieldCheck size={16} aria-hidden="true"/> {admin ? 'Administrator access only' : 'One account. Your property journey.'}</p>
     </aside>
     <section className="flex min-h-[100dvh] flex-col px-5 py-6 sm:px-10 lg:px-16">
       <div className="flex items-center justify-between gap-4"><Link to="/" className="flex min-h-11 items-center gap-2 text-sm font-medium text-secondary"><ArrowLeft size={16} aria-hidden="true"/> Back to website</Link><span className="font-heading text-sm font-bold text-primary lg:hidden">GEOKING.</span></div>

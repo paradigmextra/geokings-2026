@@ -55,7 +55,7 @@ Cloudflare Workers Builds can use:
 - Build command: `npm run build`
 - Deploy command: `npx wrangler deploy`
 
-Wrangler's checked-in build command packages the Next.js output with OpenNext before upload. The adapter and Wrangler are pinned in package-lock.json; deployment does not run a migration wizard or generate configuration. The OpenNext CLI also supports `npm run build:cloudflare` and `npm run deploy`.
+`npm run build` builds Next.js and packages the Cloudflare Worker with OpenNext before Wrangler runs. The adapter's inner build uses `npm run build:next` to avoid recursion. The adapter and Wrangler are pinned in package-lock.json; deployment does not run a migration wizard or generate configuration. The OpenNext CLI also supports `npm run build:cloudflare` and `npm run deploy`.
 
 Add the Supabase database connection and storage service key as **Worker secrets**, and configure the other environment values on the Worker. Build-environment variables alone do not configure runtime secrets. Set APP_URL to the actual HTTPS Worker/custom-domain origin, not localhost. Add NEXT_PUBLIC values to the build environment as well. No local environment file is committed or uploaded.
 

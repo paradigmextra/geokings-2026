@@ -179,3 +179,14 @@
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
 }
+
+/* A small, slow lift keeps the logo and its establishment badge together. */
+.hero-logo-float { --hero-logo-lift: -8px; animation: hero-logo-float 6s ease-in-out infinite; }
+.hero-logo-float[data-compact="true"] { --hero-logo-lift: -4px; }
+@keyframes hero-logo-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(var(--hero-logo-lift)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-logo-float { --hero-logo-lift: -8px; animation: none; transform: none; }
+}

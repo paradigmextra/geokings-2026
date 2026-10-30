@@ -47,4 +47,4 @@ npm run build:cloudflare
 npm run deploy
 ```
 
-Existing Workers Builds using `npm run build` followed by `npx wrangler deploy` also work: Wrangler runs the configured OpenNext build before upload. Configure runtime secrets as described in [SETUP.md](./SETUP.md); `.env.local` is never uploaded or committed.
+Existing Workers Builds using `npm run build` followed by `npx wrangler deploy` also work: `npm run build` already creates the OpenNext package before Wrangler runs. Configure runtime secrets as described in [SETUP.md](./SETUP.md); `.env.local` is never uploaded or committed.
