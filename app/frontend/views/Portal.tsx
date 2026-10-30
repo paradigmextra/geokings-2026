@@ -1,3 +1,4 @@
+import PageLoader from '@/components/PageLoader';
 import dynamic from 'next/dynamic';
 import PropertyEditor, { type ListingInput } from '@/components/PropertyEditor';
 import PropertyGallery from '@/components/PropertyGallery';
@@ -8,7 +9,7 @@ import PortalAuth from "@/components/PortalAuth";
 import { useCallback, useEffect, useState, type FormEvent } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Building2, LayoutDashboard, Users, CreditCard, Heart, LogOut, ArrowUpRight, Search, MapPin, Plus, ShieldCheck, Home, Store, BadgeCheck, PanelLeftClose, PanelLeftOpen, Menu, X, Mail, RefreshCw } from 'lucide-react';
-import { portalApi, portalUpload } from '@/lib/api';
+import { ApiRequestError, portalApi, portalUpload } from '@/lib/api';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -50,21 +51,12 @@ export default function Portal({ admin = false }: {
         let active = true;
         (async () => {
             try {
-                const { user } = await request<{
-                    user: User | null;
-                }>('auth/me');
-                if (!active)
-                    return;
-                if (!user) {
-                    setData(null);
-                    return;
-                }
                 const result = await request<Dashboard>('dashboard');
                 if (active)
                     setData(result);
             }
             catch (e) {
-                if (active)
+                if (active && !(e instanceof ApiRequestError && e.status === 401))
                     setError((e as Error).message);
             }
             finally {
@@ -127,7 +119,7 @@ export default function Portal({ admin = false }: {
         }
     }
     if (loading)
-        return <main className="min-h-screen grid place-items-center bg-muted"><p role="status">Loading your workspace…</p></main>;
+        return <PageLoader/>;
     if (!data)
         return <PortalAuth admin={admin} register={register} busy={busy} error={error} onModeChange={value => { setRegister(value); setError(''); }} onSubmit={authenticate}/>;
     const seller = !admin && data.user.account_type === 'seller';

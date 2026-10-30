@@ -221,3 +221,15 @@ html.admin-workspace *::-webkit-scrollbar-button {
   width: 0;
   height: 0;
 }
+
+/* Quiet, real-loading indicators: no fixed hold on navigation or sign-in. */
+.brand-loading-mark { animation: brand-loader-reveal .18s ease-out .1s both; }
+.brand-loading-ring { animation: brand-loader-turn 1.2s linear infinite; }
+.brand-navigation-progress { height: 3px; background: hsl(var(--primary) / .1); }
+.brand-navigation-progress::after { content: ''; display: block; width: 30%; height: 100%; background: hsl(var(--primary)); animation: brand-route-progress 1.1s ease-in-out infinite; }
+@keyframes brand-loader-reveal { from { opacity: 0; } to { opacity: 1; } }
+@keyframes brand-loader-turn { to { transform: rotate(360deg); } }
+@keyframes brand-route-progress { from { transform: translateX(-110%); } to { transform: translateX(440%); } }
+@media (prefers-reduced-motion: reduce) {
+  .brand-loading-mark, .brand-loading-ring, .brand-navigation-progress::after { animation: none; }
+}

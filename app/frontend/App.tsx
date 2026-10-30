@@ -1,3 +1,5 @@
+import PageLoader from './components/PageLoader';
+import SplashScreen from './components/SplashScreen';
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -5,7 +7,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Router, Routes, Route, useLocation, createPath, type To } from "react-router-dom";
 import { usePathname, useRouter } from 'next/navigation';
 import dynamic from "next/dynamic";
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useTransition } from 'react';
 import { MotionConfig } from 'framer-motion';
 import ScrollToTop from "./components/ScrollToTop";
 import Index from "./views/Index";
@@ -23,7 +25,7 @@ import TermsOfService from "./views/TermsOfService";
 import CookiePolicy from "./views/CookiePolicy";
 import CookieBanner from "./components/CookieBanner";
 import NotFound from "./views/NotFound";
-const Portal = dynamic(() => import('./views/Portal'), { loading: () => <p className="container py-10">Loading your portal...</p> });
+const Portal = dynamic(() => import('./views/Portal'), { loading: () => <PageLoader/> });
 
 const queryClient = new QueryClient();
 function PublicExtras() {
@@ -34,6 +36,7 @@ function PublicExtras() {
 const App = () => {
   const pathname = usePathname();
   const router = useRouter();
+  const [navigating, startNavigation] = useTransition();
   const [search, setSearch] = useState('');
   useEffect(() => {
     const sync = () => setSearch(window.location.search);
@@ -43,15 +46,17 @@ const App = () => {
   const navigator = useMemo(() => ({
     createHref: (to: To) => typeof to === 'string' ? to : createPath(to),
     go: (delta: number) => window.history.go(delta),
-    push: (to: To) => { const href = typeof to === 'string' ? to : createPath(to); setSearch(new URL(href,window.location.origin).search); router.push(href); },
-    replace: (to: To) => { const href = typeof to === 'string' ? to : createPath(to); setSearch(new URL(href,window.location.origin).search); router.replace(href); },
-  }), [router]);
+    push: (to: To) => startNavigation(() => { const href = typeof to === 'string' ? to : createPath(to); setSearch(new URL(href,window.location.origin).search); router.push(href); }),
+    replace: (to: To) => startNavigation(() => { const href = typeof to === 'string' ? to : createPath(to); setSearch(new URL(href,window.location.origin).search); router.replace(href); }),
+  }), [router, startNavigation]);
   return (
   <MotionConfig reducedMotion="user">
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner />
+      <SplashScreen initialPath={pathname}/>
+      {navigating && <PageLoader mode="navigation"/>}
       <Router location={`${pathname}${search}`} navigator={navigator}>
         <ScrollToTop />
         <PublicExtras />
