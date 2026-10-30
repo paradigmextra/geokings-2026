@@ -74,8 +74,7 @@ const Index = () => {
       <div className="container relative z-10 py-14 sm:py-20 lg:py-28">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="text-primary-foreground">
-            <div className="mb-6 flex items-center gap-4 sm:gap-5 lg:mb-6 lg:block">
-              <div className="lg:hidden"><HeroBrandSeal compact/></div>
+            <div className="mb-5 sm:mb-6">
             <motion.span
               initial={false}
               animate={{ opacity: 1, x: 0 }}
@@ -86,16 +85,19 @@ const Index = () => {
               Malawi's Premier Geospatial Consultancy
             </motion.span>
             </div>
+            <div className="mb-5 flex items-center justify-between gap-3 sm:mb-6 sm:gap-5 lg:block">
             <motion.h1
               initial={false}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-5 sm:mb-6"
+              className="min-w-0 font-heading text-[clamp(1.375rem,6.4vw,1.875rem)] sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight"
             >
               Transforming<br />
               <span className="text-teal-200">Land & Property</span><br />
               Management
             </motion.h1>
+              <div className="shrink-0 lg:hidden"><HeroBrandSeal compact/></div>
+            </div>
             <motion.p
               initial={false}
               animate={{ opacity: 1, y: 0 }}
