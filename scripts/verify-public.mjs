@@ -5,8 +5,11 @@ const routes = [
   ['/', 'Transforming', 'https://geoking.org'],
   ['/about', 'Our Vision', 'https://geoking.org/about'],
   ['/services/land-surveying', 'Boundary surveys', 'https://geoking.org/services/land-surveying'],
+  ['/services/gis-trainings', 'Remote sensing', 'https://geoking.org/services/gis-trainings'],
+  ['/portfolio', 'Illustrations represent each project discipline.', 'https://geoking.org/portfolio'],
+  ['/blog', 'Explore our latest thinking.', 'https://geoking.org/blog'],
   ['/blog/gis-technology-agriculture', 'Agriculture', 'https://geoking.org/blog/gis-technology-agriculture'],
-  ['/contact', 'Continue on WhatsApp', 'https://geoking.org/contact'],
+  ['/contact', 'Send enquiry', 'https://geoking.org/contact'],
 ];
 for (const [path, content, canonical] of routes) {
   const response = await fetch(origin + path);

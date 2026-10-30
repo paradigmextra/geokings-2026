@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Router, Routes, Route, useLocation, createPath, type To } from "react-router-dom";
 import { usePathname, useRouter } from 'next/navigation';
 import dynamic from "next/dynamic";
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { MotionConfig } from 'framer-motion';
 import ScrollToTop from "./components/ScrollToTop";
 import Index from "./views/Index";
@@ -34,11 +34,17 @@ function PublicExtras() {
 const App = () => {
   const pathname = usePathname();
   const router = useRouter();
+  const [search, setSearch] = useState('');
+  useEffect(() => {
+    const sync = () => setSearch(window.location.search);
+    sync(); window.addEventListener('popstate',sync);
+    return () => window.removeEventListener('popstate',sync);
+  }, [pathname]);
   const navigator = useMemo(() => ({
     createHref: (to: To) => typeof to === 'string' ? to : createPath(to),
     go: (delta: number) => window.history.go(delta),
-    push: (to: To) => router.push(typeof to === 'string' ? to : createPath(to)),
-    replace: (to: To) => router.replace(typeof to === 'string' ? to : createPath(to)),
+    push: (to: To) => { const href = typeof to === 'string' ? to : createPath(to); setSearch(new URL(href,window.location.origin).search); router.push(href); },
+    replace: (to: To) => { const href = typeof to === 'string' ? to : createPath(to); setSearch(new URL(href,window.location.origin).search); router.replace(href); },
   }), [router]);
   return (
   <MotionConfig reducedMotion="user">
@@ -46,7 +52,7 @@ const App = () => {
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <Router location={pathname} navigator={navigator}>
+      <Router location={`${pathname}${search}`} navigator={navigator}>
         <ScrollToTop />
         <PublicExtras />
         <Routes>

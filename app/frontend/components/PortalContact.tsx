@@ -1,0 +1,25 @@
+import { useState } from 'react';
+import { Mail, Phone, MapPin, Send, MessageSquare } from 'lucide-react';
+import type { ContactMessage } from '../lib/portal-types';
+import { countWords } from '../../content/listing-limits';
+import { Button } from './ui/button';
+import { Input } from './ui/input';
+export default function PortalContact({ admin, messages, send, reply }: { admin: boolean; messages: ContactMessage[]; send: (subject:string,message:string)=>Promise<void>; reply: (id:string,message:string)=>Promise<void> }) {
+  const [busy,setBusy]=useState(false);
+  const [error,setError]=useState('');
+  async function submit(event:React.FormEvent<HTMLFormElement>,id?:string) {
+    event.preventDefault(); const form=event.currentTarget; const values=new FormData(form); const message=String(values.get('message') || '');
+    if(countWords(message)>300){setError('Keep your message within 300 words.');return;}
+    setBusy(true);setError('');
+    try {if(id)await reply(id,message);else await send(String(values.get('subject')),message);form.reset();}catch(e){setError((e as Error).message);}finally{setBusy(false);}
+  }
+  return <div className="space-y-6">
+    <div className="grid gap-3 md:grid-cols-3">{[[Phone,'Call our team','+265 983 333 061','tel:+265983333061'],[Mail,'Email Geoking','Info@geoking.org','mailto:Info@geoking.org'],[MapPin,'Visit our office','Area 4, Lilongwe','/contact']].map(([Icon,label,detail,href])=>{const ContactIcon=Icon as typeof Phone;return <a key={String(label)} href={String(href)} className="flex items-start gap-3 rounded-2xl border bg-white p-5"><span className="rounded-xl bg-primary/10 p-3 text-primary"><ContactIcon size={21}/></span><span><span className="block text-sm font-semibold">{String(label)}</span><span className="mt-1 block text-xs text-muted-foreground">{String(detail)}</span></span></a>;})}</div>
+    {error && <p role="alert" className="rounded-xl bg-destructive/5 p-4 text-sm text-destructive">{error}</p>}
+    <div className={`grid items-start gap-6 ${admin?'':'xl:grid-cols-[.85fr_1.15fr]'}`}>
+      {!admin && <form onSubmit={event=>submit(event)} className="space-y-4 rounded-2xl border bg-white p-5 sm:p-7"><MessageSquare size={26} className="text-primary"/><h2 className="font-heading text-xl font-semibold">How can we help?</h2><p className="text-sm text-muted-foreground">Ask about a property, your listing or our services. Your enquiry and our reply stay in your account.</p><label className="block text-sm font-medium">Subject<Input name="subject" required minLength={3} maxLength={120} placeholder="e.g. Enquiry about a property in Lilongwe" className="mt-2"/></label><MessageInput/><Button disabled={busy} className="w-full">{busy?'Sending…':'Send enquiry'}<Send size={16}/></Button></form>}
+      <div className="space-y-4"><h2 className="font-heading text-xl font-semibold">{admin?'Client enquiries':'Your enquiries'} <span className="text-sm text-muted-foreground">({messages.length})</span></h2>{!messages.length && <div className="rounded-2xl border border-dashed bg-white p-8 text-sm text-muted-foreground">{admin?'New buyer and seller enquiries will appear here.':'You have no enquiries yet. Send a message to get started.'}</div>}{messages.map(message=><article key={message.id} className="rounded-2xl border bg-white p-5 sm:p-6"><div className="flex flex-wrap items-start justify-between gap-3"><div><h3 className="font-semibold">{message.subject}</h3><p className="mt-1 text-xs text-muted-foreground">{admin && `${message.name} · ${message.email} · `}{new Date(message.created_at).toLocaleDateString('en-GB')}</p></div><span className="rounded-full bg-primary/10 px-3 py-1 text-xs capitalize text-primary">{message.status==='open'?'Awaiting reply':'Replied'}</span></div><p className="mt-4 whitespace-pre-wrap break-words text-sm leading-relaxed text-muted-foreground">{message.message}</p>{message.reply && <div className="mt-4 rounded-xl border-l-2 border-primary bg-primary/5 p-4"><p className="text-xs font-semibold text-primary">Geoking team</p><p className="mt-2 whitespace-pre-wrap break-words text-sm leading-relaxed">{message.reply}</p></div>}{admin && <form className="mt-5 space-y-3 border-t pt-4" onSubmit={event=>submit(event,message.id)}><MessageInput reply/><Button size="sm" disabled={busy}>{message.reply?'Update reply':'Send reply'}</Button><p className="text-xs text-muted-foreground">The client can read this reply in their Contact section.</p></form>}</article>)}</div>
+    </div>
+  </div>;
+}
+function MessageInput({reply=false}:{reply?:boolean}){return <label className="block text-sm font-medium">{reply?'Your reply':'Message'}<textarea name="message" required minLength={reply?3:10} maxLength={3000} rows={4} placeholder={reply?'Write a helpful reply to this enquiry…':'Tell us what you need help with…'} className="mt-2 w-full rounded-xl border p-3 text-sm font-normal"/><span className="mt-1 block text-xs font-normal text-muted-foreground">Up to 300 words / 3,000 characters.</span></label>;}

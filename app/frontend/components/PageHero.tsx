@@ -5,9 +5,10 @@ interface PageHeroProps {
   title: string;
   subtitle: string;
   bgImage: string;
+  children?: React.ReactNode;
 }
 
-const PageHero = ({ title, subtitle, bgImage }: PageHeroProps) => (
+const PageHero = ({ title, subtitle, bgImage, children }: PageHeroProps) => (
   <section className="relative py-16 sm:py-20 md:py-28 text-center text-primary-foreground overflow-hidden">
     {/* Background image */}
     <Image src={bgImage} alt="" fill sizes="100vw" priority className="object-cover" />
@@ -30,6 +31,7 @@ const PageHero = ({ title, subtitle, bgImage }: PageHeroProps) => (
       >
         {subtitle}
       </motion.p>
+      {children && <div className="mt-7 flex flex-wrap justify-center gap-3">{children}</div>}
     </div>
   </section>
 );

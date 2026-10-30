@@ -35,7 +35,7 @@ export async function endSession(role: PortalRole) {
 export async function rateLimit(key: string) {
     const database = await db();
     const now = Date.now();
-    await database.execute({ sql: 'INSERT INTO rate_limits(key,count,reset) VALUES(?,1,?) ON CONFLICT(key) DO UPDATE SET count=CASE WHEN reset<? THEN 1 ELSE count+1 END, reset=CASE WHEN reset<? THEN excluded.reset ELSE reset END', args: [digest(key), now + 900000, now, now] });
+    await database.execute({ sql: 'INSERT INTO rate_limits(key,count,reset) VALUES(?,1,?) ON CONFLICT(key) DO UPDATE SET count=CASE WHEN rate_limits.reset<? THEN 1 ELSE rate_limits.count+1 END, reset=CASE WHEN rate_limits.reset<? THEN excluded.reset ELSE rate_limits.reset END', args: [digest(key), now + 900000, now, now] });
     const r = await database.execute({ sql: 'SELECT count FROM rate_limits WHERE key=?', args: [digest(key)] });
     if (Number(r.rows[0].count) > 10)
         throw new ApiError(429, 'Too many attempts. Please try again in 15 minutes.');

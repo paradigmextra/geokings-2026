@@ -1,55 +1,90 @@
-# Geoking admin and client portal
+# Geoking application setup
 
-This application runs on Next.js with API route handlers and a persistent libSQL database. All browser code is under `app/frontend`; database, authentication, API, and payment code is under `app/backend`. The small `app/api` route only exposes the backend through Next.js.
+The application uses Next.js route handlers, Supabase PostgreSQL and private Supabase Storage. Buyer, seller and administrator accounts retain the existing bcrypt/password and HTTP-only session authentication. Application accounts are in `public.users`; this integration does not create Supabase Auth identities.
 
-## Local setup
+## Supabase
 
-Requires Node.js 20.9+ (Node 24 recommended).
+Use the migrations in `supabase/migrations` in order. They create eight application tables with foreign keys, indexes, checks and row-level security: users, sessions, properties, property_images, payments, saved_properties, contact_messages and rate_limits.
+
+The migrations create a `geoking_backend` role without login. Assign that role a strong generated password from a trusted database administration session, then use its Supabase pooler connection in `DATABASE_URL`. The role has only application-table access. Anonymous and Supabase authenticated API roles cannot read private application data. The publishable key is never a server credential.
+
+Required environment values:
+
+- `DATABASE_URL`: restricted PostgreSQL pooler connection, with URL-encoded password.
+- `NEXT_PUBLIC_SUPABASE_URL`: the project HTTPS URL.
+- `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`: public project key.
+- `SUPABASE_SERVICE_ROLE_KEY`: server-only key for private file storage.
+- `APP_URL`: exact site origin, used for request-origin checking and HTTPS cookie settings.
+- `SITE_URL`: public origin for canonical URLs and search metadata.
+
+The supplied project has already been provisioned and the local environment configured. The temporary management access token is not needed at runtime and is not saved in the repository. The official Supabase root certificate is included in `supabase/ca.json`; PostgreSQL TLS certificate and hostname verification remain enabled.
+
+Create two **private** storage buckets:
+
+- `geoking-kyc`: maximum 5 MB; JPEG, PNG, WebP and PDF documents.
+- `geoking-properties`: maximum 3 MB; JPEG, PNG and WebP images.
+
+No public storage policy is required. KYC files are retrieved only through an administrator-authorized API. Unapproved property photos are available only to the owner and administrators. Approved photos are served through the application; the bucket remains private.
+
+For migration of an existing local database:
 
 ```sh
-npm install
-node scripts/setup-local.mjs
-npm run admin:create
+npm run db:migrate:supabase
+```
+
+The original local database is preserved. Migration inserts run in a transaction and existing primary keys are not overwritten. Back up both databases before migrating a separate installation.
+
+## Localhost
+
+```sh
+npm ci
+# Set .env.local using .env.example and the values above.
 npm run dev
 ```
 
-Open `/admin` and use username `admin` with password `admin`. These requested local credentials are also recorded in `ADMIN-ACCESS.local`, which is excluded from Git. Set `ADMIN_USERNAME`, `ADMIN_PASSWORD` (1–72 UTF-8 bytes), and `ADMIN_NAME` in `.env.local` before running `npm run admin:create` to use different credentials. Running that command again updates the administrator and revokes its existing sessions. Change the default credentials before any public deployment.
+Open http://localhost:3000. Administrator access is at `/admin`; buyer and seller registration is at `/client`. Existing local administrator credentials are preserved. Use Account/Settings to change the password, or configure `ADMIN_USERNAME`, `ADMIN_PASSWORD` and `ADMIN_NAME` and run `npm run admin:create` from a trusted environment. Do not use the development admin/admin credentials for a public deployment.
 
-Clients register and sign in at `/client` as buyers or sellers. Sellers submit their details and an ID document for administrator KYC review before they can submit property listings. Seller listings also require administrator approval before appearing to buyers or on the public website. Rejected KYC submissions can be corrected and re-uploaded. Both portals use one shared layout, design system, and API.
+A `file:` DATABASE_URL is retained for isolated SQLite development/tests only. Hosted Workers must use the Supabase PostgreSQL connection.
 
-No fictitious properties or prices are seeded. Add actual listings in Admin → Properties. Drafts are hidden from clients. Images currently use the three supplied property assets; uploading photos is not implemented.
+## Cloudflare Workers
 
-## Cloudflare R2 for private KYC documents
+The repository contains `wrangler.jsonc` and `open-next.config.ts`. The Worker name and self-reference service must both be **geokings-2026**. This fixes the deployment failure caused by a generated self-reference to the old starter package name.
 
-Create a private R2 Standard bucket, create an R2 API token with Object Read & Write access limited to that bucket, and set `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, and `R2_BUCKET_NAME`. Do not enable the public `r2.dev` URL for this bucket. The server accepts JPG, PNG, WebP, and PDF files up to 5 MB. Documents are retrieved through an administrator-authenticated API route and are never exposed in public listing data. Re-uploading replaces the database reference and deletes the previous R2 object.
+Cloudflare Workers Builds can use:
 
-## PayChangu / mobile money
+- Build command: `npm run build`
+- Deploy command: `npx wrangler deploy`
 
-Set these **server-side** environment values:
+Wrangler's checked-in build command packages the Next.js output with OpenNext before upload. The adapter and Wrangler are pinned in package-lock.json; deployment does not run a migration wizard or generate configuration. The OpenNext CLI also supports `npm run build:cloudflare` and `npm run deploy`.
 
-- `APP_URL`: the site's origin (for example `https://your-domain.com`), also used to validate mutation origins.
-- `PAYCHANGU_SECRET_KEY`: your PayChangu sandbox secret key first; use a live key only after testing.
-- `PAYCHANGU_WEBHOOK_SECRET`: the webhook signing secret configured in your PayChangu dashboard.
+Add the Supabase database connection and storage service key as **Worker secrets**, and configure the other environment values on the Worker. Build-environment variables alone do not configure runtime secrets. Set APP_URL to the actual HTTPS Worker/custom-domain origin, not localhost. Add NEXT_PUBLIC values to the build environment as well. No local environment file is committed or uploaded.
 
-Configure PayChangu's webhook URL as `https://your-domain.com/api/payments/webhook` and enable checkout payment notifications. Local webhook testing needs an HTTPS tunnel and matching `APP_URL`. The checkout redirects to `/client`, where the server verifies the transaction. Webhooks also verify the signature and independently retrieve the transaction. Reference, MWK currency, amount, and successful provider status must match before recording a payment and marking the property sold. Never mark a property paid based on browser query parameters.
+`GEOKING_RUNTIME=cloudflare` is configured in Wrangler. Database pools are scoped and closed per Worker request so TCP connections are not shared across request contexts. The SQLite package is aliased to its web driver in the Worker bundle; production uses PostgreSQL. Native image processing is avoided in API handlers: the browser resizes upload images, and the server verifies format, dimensions, photo count and byte limits. Next/Image serves existing assets without a paid Cloudflare Images binding.
 
-Checkout charges the full property price in MWK. Legal transfer remains a separate process with Geoking. There are no pretend successful payments. Without PayChangu credentials the payment button is disabled and API requests return a configuration error.
+## Listings, enquiries and payments
 
-The database reserves a property for one active checkout to prevent double purchases. Pending transactions remain reserved because a failed attempt or network timeout may still leave a payable provider session. Clients can resume a generated checkout and admins can recheck provider status. A timeout during checkout creation may require operator reconciliation with PayChangu. Do not manually release a reservation until the provider confirms the checkout cannot settle. Refunds, reservation expiry, and cancellation workflows are not implemented.
+Sellers must complete KYC before submitting listings. Seller submissions are drafts pending admin approval and remain hidden from the catalogue and buyer dashboards. Admin → Listing approvals allows photo/detail review, approval or rejection. Only approved available properties can be purchased by buyer accounts.
 
-## Production
+The upload form accepts up to six photos, 3 MB each and up to 20 megapixels, with minimum dimensions 640 x 480. It prepares images to fit within 2,000 x 1,600 pixels. The server also checks image signatures/dimensions and limits the total multipart body to 20 MB. Titles allow 100 characters, locations 150, and descriptions 300 words / 3,000 characters. Photo references, descriptions, prices and review state are stored in PostgreSQL.
 
-Use a persistent hosted libSQL/Turso `DATABASE_URL` and `DATABASE_AUTH_TOKEN` for serverless hosting. A local `file:` database is suitable only for a single server with a persistent writable disk and backups, not ephemeral Vercel storage. Add all environment variables to your host and run `npm run admin:create` against that database from a trusted environment. Set a unique administrator username and strong password. No admin is created automatically at runtime.
+Public enquiries and signed-in contact messages are saved to the admin Contact section. Signed-in users can see their own enquiries and administrator replies. Public enquiries retain the sender's supplied contact details for a direct response; this application does not send reply emails automatically.
+
+Set server-side `PAYCHANGU_SECRET_KEY` and `PAYCHANGU_WEBHOOK_SECRET` to activate checkout. Configure the webhook at `https://your-origin/api/payments/webhook`. Reference, currency, full asking price and successful provider status are checked before payment is marked paid and the property sold. A unique database index prevents two active purchases of one property. Pending checkouts remain reserved until reconciled with the provider. No test payment is reported as a real sale.
+
+Legal transfer is arranged separately with Geoking. Without payment credentials, checkout remains disabled with a clear explanation. Payment cancellation, refunds, email verification and self-service password reset are not implemented.
+
+## Verification
 
 ```sh
 npm run typecheck
+npm run lint
 npm test
 npm run build
-npm start
+npm run test:integration
+# Against the configured running Supabase-backed localhost app:
+npm run verify:supabase
+node scripts/verify-public.mjs
+npm run build:cloudflare
 ```
 
-Authentication uses bcrypt password hashes and hashed random session tokens in HTTP-only, SameSite cookies (Secure on HTTPS). Authorization is checked in every protected API endpoint. Account deletion revokes sessions and removes favourites; historical payments remain with the customer detached. Admin accounts and users with pending payments cannot be deleted through the dashboard. Authentication is rate-limited per login identifier in the database. Set `TRUST_PROXY=true` only behind a proxy that replaces `X-Forwarded-For` to additionally rate-limit by IP. Apply a production edge rate limit to public registration. Email verification and self-service password reset are not yet provided.
-
-The API initializes its tables on first use. Back up the database before future schema changes. Run the integration test against an isolated database; never against production.
-
-References: [Next.js migration guide](https://nextjs.org/docs/app/guides/migrating/from-vite), [PayChangu checkout](https://developer.paychangu.com/docs/standard-checkout), [verification](https://developer.paychangu.com/docs/transaction-verification), [webhooks](https://developer.paychangu.com/docs/webhooks).
+The Supabase verification creates uniquely named temporary accounts, listings and files, tests buyer/seller/admin boundaries and cleans up those exact fixtures. Run it only against a development or staging installation. It does not make a real payment.

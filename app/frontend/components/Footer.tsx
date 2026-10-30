@@ -1,3 +1,4 @@
+import SocialLinks from "./SocialLinks";
 import { Link } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
 import { serviceData } from '../../content/services';
@@ -22,10 +23,7 @@ export default function Footer() {
         <nav aria-label="Footer explore"><h3 className="mb-4 text-xs font-semibold uppercase tracking-[.18em] text-teal-200">Explore</h3><ul className="space-y-1 text-sm">{[['About Geoking','/about'],['Properties','/properties'],['Our work','/portfolio'],['Insights','/blog'],['Contact','/contact'],['Client portal','/client'],['Agent portal','/agent-portal']].map(([label,path]) => <li key={path}><Link to={path} className="inline-flex min-h-10 items-center text-white/80 transition-colors hover:text-teal-200">{label}</Link></li>)}</ul></nav>
         <nav aria-label="Footer services"><h3 className="mb-4 text-xs font-semibold uppercase tracking-[.18em] text-teal-200">Our expertise</h3><ul className="grid gap-x-6 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">{Object.entries(serviceData).map(([slug,service]) => <li key={slug}><Link to={`/services/${slug}`} className="flex min-h-11 items-center py-2 text-sm leading-snug text-white/80 transition-colors hover:text-teal-200">{service.title}</Link></li>)}</ul></nav>
       </div>
-      <div className="grid gap-6 border-b border-white/15 py-8 md:grid-cols-[1fr_auto] md:items-center">
-        <div><p className="mb-2 text-xs text-white/60">Have a site, property or idea in mind?</p><a href="mailto:Info@geoking.org" className="inline-flex min-h-11 items-center gap-3 font-heading text-2xl font-semibold sm:text-3xl">Info@geoking.org <ArrowUpRight size={22} aria-hidden="true"/></a></div>
-        <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm"><a href="tel:+265983333061" className="flex min-h-11 items-center text-white/80 hover:text-teal-200">+265 983 333 061</a><a href="tel:+265881313475" className="flex min-h-11 items-center text-white/80 hover:text-teal-200">+265 881 313 475</a><a href="https://web.facebook.com/geokingconsultancy/" target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center gap-2 text-teal-200">Facebook <ArrowUpRight size={15} aria-hidden="true"/></a></div>
-      </div>
+      <div className="flex flex-wrap items-center justify-between gap-5 border-b border-white/15 py-7"><p className="text-sm font-medium text-white/80">Connect with Geoking</p><SocialLinks/></div>
 
     </div>
     </div>

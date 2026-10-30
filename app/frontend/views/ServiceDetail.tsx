@@ -1,3 +1,4 @@
+import Training from "./Training";
 import { serviceData } from "../../content/services";
 import { useParams, Link } from "react-router-dom";
 import Layout from "@/components/Layout";
@@ -8,6 +9,8 @@ import { ArrowRight, CheckCircle } from "lucide-react";
 const ServiceDetail = () => {
   const { slug } = useParams<{ slug: string }>();
   const service = slug ? serviceData[slug] : null;
+
+  if (slug === "gis-trainings") return <Training />;
 
   if (!service) {
     return (

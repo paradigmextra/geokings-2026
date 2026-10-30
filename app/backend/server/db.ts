@@ -1,40 +1,90 @@
-import { createClient } from '@libsql/client';
-let client: ReturnType<typeof createClient>;
-let ready: Promise<void>;
-export async function db() {
-    if (!client) {
-        if (process.env.NODE_ENV === 'production' && !process.env.DATABASE_URL)
-            throw new Error('DATABASE_URL is required');
-        client = createClient({ url: process.env.DATABASE_URL || 'file:geoking.db', authToken: process.env.DATABASE_AUTH_TOKEN });
+import { AsyncLocalStorage } from 'node:async_hooks';
+import { Pool, types, type PoolClient } from 'pg';
+import certificate from '../../../supabase/ca.json';
+
+type Value = string | number | bigint | boolean | null | Uint8Array;
+type Statement = string | { sql: string; args?: Value[] };
+type Row = Record<string, string | number | null>;
+type Result = { rows: Row[]; rowsAffected: number };
+interface Transaction {
+    execute(statement: Statement): Promise<Result>;
+    commit(): Promise<void>;
+    close(): void;
+}
+interface Database {
+    execute(statement: Statement): Promise<Result>;
+    transaction(mode?: string): Promise<Transaction>;
+    batch(statements: Statement[], mode?: string): Promise<Result[]>;
+    close(): void | Promise<void>;
+}
+
+types.setTypeParser(20, Number);
+types.setTypeParser(1184, value => value);
+let sharedDatabase: Database;
+const requests = new AsyncLocalStorage<{ database?: Database }>();
+export async function withDatabase<T>(run: () => Promise<T>): Promise<T> {
+    if (process.env.GEOKING_RUNTIME !== 'cloudflare') return run();
+    const scope: { database?: Database } = {};
+    return requests.run(scope, async () => { try { return await run(); } finally { await scope.database?.close(); } });
+}
+
+function parameters(statement: Statement) {
+    const { sql, args = [] } = typeof statement === 'string' ? { sql: statement } : statement;
+    let index = 0;
+    // Preserve question marks inside quoted SQL literals.
+    const text = sql.replace(/'(?:''|[^'])*'|\?/g, token => token === '?' ? `$${++index}` : token);
+    if (index !== args.length) throw new Error('Incorrect database parameter count');
+    return { text, values: args };
+}
+
+export async function db(): Promise<Database> {
+    const url = process.env.DATABASE_URL;
+    if (!url?.startsWith('postgres')) {
+        if (process.env.NODE_ENV === 'production' && !url) throw new Error('DATABASE_URL is required.');
+        return await (await import('./sqlite')).db() as unknown as Database;
     }
-    if (!ready)
-        ready = (async () => {
-        await client.executeMultiple(`
-    CREATE TABLE IF NOT EXISTS users (id TEXT PRIMARY KEY, name TEXT NOT NULL, email TEXT UNIQUE NOT NULL, password TEXT NOT NULL, role TEXT NOT NULL DEFAULT 'client', created_at TEXT DEFAULT CURRENT_TIMESTAMP);
-    CREATE TABLE IF NOT EXISTS sessions (token TEXT PRIMARY KEY, user_id TEXT NOT NULL, expires INTEGER NOT NULL);
-    CREATE TABLE IF NOT EXISTS properties (id TEXT PRIMARY KEY, title TEXT NOT NULL, location TEXT NOT NULL, type TEXT NOT NULL, description TEXT NOT NULL, price INTEGER NOT NULL, image TEXT NOT NULL, status TEXT NOT NULL DEFAULT 'available', created_at TEXT DEFAULT CURRENT_TIMESTAMP);
-    CREATE TABLE IF NOT EXISTS payments (id TEXT PRIMARY KEY, user_id TEXT, property_id TEXT NOT NULL, title TEXT NOT NULL, amount INTEGER NOT NULL, currency TEXT NOT NULL DEFAULT 'MWK', status TEXT NOT NULL DEFAULT 'pending', checkout_url TEXT, created_at TEXT DEFAULT CURRENT_TIMESTAMP);
-    CREATE UNIQUE INDEX IF NOT EXISTS property_active_payment ON payments(property_id) WHERE status IN ('pending','paid');
-    CREATE TABLE IF NOT EXISTS saved_properties (user_id TEXT NOT NULL, property_id TEXT NOT NULL, PRIMARY KEY(user_id, property_id));
-    CREATE TABLE IF NOT EXISTS rate_limits (key TEXT PRIMARY KEY, count INTEGER NOT NULL, reset INTEGER NOT NULL);
-  `);
-        const migrations = [
-            ['users', 'account_type', "TEXT NOT NULL DEFAULT 'buyer'"],
-            ['users', 'kyc_status', "TEXT NOT NULL DEFAULT 'not_submitted'"],
-            ['users', 'kyc_id_number', 'TEXT'],
-            ['users', 'kyc_phone', 'TEXT'],
-            ['users', 'kyc_address', 'TEXT'],
-            ['users', 'kyc_document_key', 'TEXT'],
-            ['users', 'kyc_document_type', 'TEXT'],
-            ['properties', 'owner_user_id', 'TEXT'],
-            ['properties', 'approval_status', "TEXT NOT NULL DEFAULT 'approved'"],
-        ] as const;
-        for (const [table, column, definition] of migrations) {
-            const columns = (await client.execute(`PRAGMA table_info(${table})`)).rows;
-            if (!columns.some(item => item.name === column))
-                await client.execute(`ALTER TABLE ${table} ADD COLUMN ${column} ${definition}`);
-        }
-        })().catch(error => { ready = undefined; throw error; });
-    await ready;
-    return client;
+    const scope = requests.getStore();
+    let database = scope?.database || sharedDatabase;
+    if (!database) {
+        const pool = new Pool({ connectionString: url, ssl: { ca: process.env.DATABASE_SSL_CA || certificate.ca, rejectUnauthorized: true }, max: 2, connectionTimeoutMillis: 30000, idleTimeoutMillis: 60000, query_timeout: 20000, statement_timeout: 15000, keepAlive: true });
+        pool.on('error', () => console.error('The database connection was interrupted.'));
+        const execute = async (statement: Statement, connection: Pool | PoolClient = pool): Promise<Result> => {
+            const result = await connection.query(parameters(statement));
+            return { rows: result.rows, rowsAffected: result.rowCount || 0 };
+        };
+        const transaction = async (): Promise<Transaction> => {
+            const connection = await pool.connect();
+            try { await connection.query('BEGIN ISOLATION LEVEL SERIALIZABLE'); }
+            catch (error) { connection.release(); throw error; }
+            let committed = false;
+            let closed = false;
+            return {
+                execute: statement => execute(statement, connection),
+                async commit() { await connection.query('COMMIT'); committed = true; },
+                close() {
+                    if (closed) return;
+                    closed = true;
+                    if (committed) connection.release();
+                    else void connection.query('ROLLBACK').catch(() => undefined).finally(() => connection.release());
+                },
+            };
+        };
+        database = {
+            execute,
+            transaction,
+            async batch(statements) {
+                const tx = await transaction();
+                try {
+                    const results = [];
+                    for (const statement of statements) results.push(await tx.execute(statement));
+                    await tx.commit();
+                    return results;
+                } finally { tx.close(); }
+            },
+            close() { return pool.end(); },
+        };
+    }
+    if (scope) scope.database = database;
+    else sharedDatabase = database;
+    return database;
 }
